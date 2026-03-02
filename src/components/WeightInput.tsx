@@ -11,14 +11,16 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
   const numVal = parseFloat(value);
   const isInvalid = value !== '' && (isNaN(numVal) || numVal < 0);
 
+  const max = unit === 'kg' ? 500 : 1100;
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const raw = e.target.value;
     const n = parseFloat(raw);
-    if (raw !== '' && !isNaN(n) && n < 0) {
-      onChange('0');
-    } else {
-      onChange(raw);
+    if (raw !== '' && !isNaN(n)) {
+      if (n < 0) { onChange('0'); return; }
+      if (n > max) { onChange(String(max)); return; }
     }
+    onChange(raw);
   }
 
   return (
@@ -29,6 +31,7 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
           type="number"
           value={value}
           min={0}
+          max={max}
           step={unit === 'kg' ? 0.5 : 2.5}
           onChange={handleChange}
           className={`w-32 px-3 py-2 bg-zinc-800 rounded-lg text-white text-lg font-mono tabular-nums focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none border ${

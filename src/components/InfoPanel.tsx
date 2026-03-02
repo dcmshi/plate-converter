@@ -27,19 +27,43 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
       {/* Header row */}
       <div className="flex items-baseline gap-2">
         <span className="text-xs text-zinc-500 uppercase tracking-widest">{label}</span>
-        {/* Achievable weight */}
         <span className="text-2xl font-bold text-white tabular-nums">
           {fmtWeight(achievable, unit)}
         </span>
         <span className="text-sm text-zinc-400">{unit}</span>
 
-        {/* Exact badge */}
         {!bounds.isExact && (
           <span className="ml-auto text-xs text-zinc-500">
             exact: {fmtWeight(bounds.exact, unit)} {unit}
           </span>
         )}
       </div>
+
+      {/* Round down / up toggle — only shown for non-exact matches */}
+      {!bounds.isExact && (
+        <div className="flex gap-1 p-0.5 bg-zinc-800 rounded-lg self-start">
+          <button
+            onClick={() => onSelectSide('down')}
+            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              activeSide === 'down'
+                ? 'bg-zinc-600 text-white'
+                : 'text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            ▼ Round Down
+          </button>
+          <button
+            onClick={() => onSelectSide('up')}
+            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              activeSide === 'up'
+                ? 'bg-zinc-600 text-white'
+                : 'text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            ▲ Round Up
+          </button>
+        </div>
+      )}
 
       {/* Bounds track */}
       <BoundsTrack

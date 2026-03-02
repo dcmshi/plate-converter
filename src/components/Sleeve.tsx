@@ -46,15 +46,16 @@ export default function Sleeve({ plates, unit, isEleiko }: SleeveProps) {
         {hasPlates ? (
           plates
             .filter((p) => p.count > 0)
-            .map((p) => (
-              <Plate
-                key={p.weight}
-                weight={p.weight}
-                unit={unit}
-                isEleiko={isEleiko}
-                count={p.count}
-              />
-            ))
+            .flatMap((p) =>
+              Array.from({ length: p.count }, (_, i) => (
+                <Plate
+                  key={`${p.weight}-${i}`}
+                  weight={p.weight}
+                  unit={unit}
+                  isEleiko={isEleiko}
+                />
+              )),
+            )
         ) : (
           <span className="text-zinc-600 text-xs ml-3">No plates</span>
         )}

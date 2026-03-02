@@ -12,16 +12,6 @@ describe('Plate — Eleiko KG', () => {
     const { container } = render(<Plate weight={999} unit="kg" isEleiko={true} />);
     expect(container.firstChild).toBeNull();
   });
-
-  it('shows count label when count > 1', () => {
-    render(<Plate weight={25} unit="kg" isEleiko={true} count={3} />);
-    expect(screen.getByText('×3')).toBeInTheDocument();
-  });
-
-  it('does not show count label when count is 1', () => {
-    render(<Plate weight={25} unit="kg" isEleiko={true} count={1} />);
-    expect(screen.queryByText('×1')).not.toBeInTheDocument();
-  });
 });
 
 describe('Plate — Iron LB', () => {
@@ -43,10 +33,5 @@ describe('Plate — Iron LB', () => {
   it('shows 2.5 label for 2.5 lb plate', () => {
     render(<Plate weight={2.5} unit="lb" isEleiko={false} />);
     expect(screen.getByText('2.5')).toBeInTheDocument();
-  });
-
-  it('shows count label when count > 1', () => {
-    render(<Plate weight={45} unit="lb" isEleiko={false} count={2} />);
-    expect(screen.getByText('×2')).toBeInTheDocument();
   });
 });

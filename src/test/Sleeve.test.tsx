@@ -33,9 +33,13 @@ describe('Sleeve', () => {
     expect(screen.getByText('No plates')).toBeInTheDocument();
   });
 
-  it('shows count labels for plates with count > 1', () => {
-    render(<Sleeve plates={kgPlates} unit="kg" isEleiko={true} />);
-    expect(screen.getByText('×2')).toBeInTheDocument();
+  it('renders each plate instance individually (count=2 → two elements)', () => {
+    const { container } = render(
+      <Sleeve plates={[{ weight: 25, count: 2 }]} unit="kg" isEleiko={true} />,
+    );
+    // Two plate divs should be rendered, not one with a ×2 label
+    const plateDivs = container.querySelectorAll('[style*="background-color: rgb(210, 39, 48)"]');
+    expect(plateDivs).toHaveLength(2);
   });
 
   it('renders plates with count 0 as empty', () => {

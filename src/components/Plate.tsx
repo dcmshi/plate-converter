@@ -11,10 +11,9 @@ interface PlateProps {
   weight: number;
   unit: PlateUnit;
   isEleiko: boolean;
-  count?: number;
 }
 
-export default function Plate({ weight, unit, isEleiko, count = 1 }: PlateProps) {
+export default function Plate({ weight, unit, isEleiko }: PlateProps) {
   if (isEleiko && unit === 'kg') {
     const def = KG_PLATES.find((p) => p.weight === weight);
     if (!def) return null;
@@ -24,21 +23,16 @@ export default function Plate({ weight, unit, isEleiko, count = 1 }: PlateProps)
     const border = def.borderColor ? `2px solid ${def.borderColor}` : '2px solid rgba(255,255,255,0.25)';
 
     return (
-      <div className="flex flex-col items-center gap-0.5">
-        <div
-          style={{
-            width: `${width}px`,
-            height: `${height}px`,
-            backgroundColor: def.color,
-            border,
-            borderRadius: '3px',
-            flexShrink: 0,
-          }}
-        />
-        {count > 1 && (
-          <span className="text-[9px] text-zinc-400 font-mono leading-none">×{count}</span>
-        )}
-      </div>
+      <div
+        style={{
+          width: `${width}px`,
+          height: `${height}px`,
+          backgroundColor: def.color,
+          border,
+          borderRadius: '3px',
+          flexShrink: 0,
+        }}
+      />
     );
   }
 
@@ -55,43 +49,36 @@ export default function Plate({ weight, unit, isEleiko, count = 1 }: PlateProps)
   };
   const height = sizeToHeight[def.size] ?? 100;
   const width = LB_PLATE_WIDTH[weight] ?? 12;
-
-  // Label: whole numbers without decimal, 2.5 stays as "2.5"
   const label = Number.isInteger(weight) ? `${weight}` : weight.toFixed(1);
 
   return (
-    <div className="flex flex-col items-center gap-0.5">
-      <div
+    <div
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        backgroundColor: def.color,
+        border: '2px solid #3f3f46',
+        borderRadius: '3px',
+        flexShrink: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        writingMode: 'vertical-rl',
+        overflow: 'hidden',
+      }}
+    >
+      <span
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          backgroundColor: def.color,
-          border: '2px solid #3f3f46',
-          borderRadius: '3px',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          writingMode: 'vertical-rl',
-          overflow: 'hidden',
+          fontSize: '7px',
+          color: '#a1a1aa',
+          fontFamily: 'monospace',
+          fontWeight: 700,
+          letterSpacing: '0.05em',
+          transform: 'rotate(180deg)',
         }}
       >
-        <span
-          style={{
-            fontSize: '7px',
-            color: '#a1a1aa',
-            fontFamily: 'monospace',
-            fontWeight: 700,
-            letterSpacing: '0.05em',
-            transform: 'rotate(180deg)',
-          }}
-        >
-          {label}
-        </span>
-      </div>
-      {count > 1 && (
-        <span className="text-[9px] text-zinc-400 font-mono leading-none">×{count}</span>
-      )}
+        {label}
+      </span>
     </div>
   );
 }

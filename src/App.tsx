@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { kgToLb, lbToKg, roundToNearestHalfKg } from './utils/conversion';
 import { getBounds } from './utils/loading';
-import { KG_PLATES, LB_PLATES, BAR_WEIGHTS, type BarType, type PlateUnit } from './utils/constants';
+import { KG_PLATES, LB_PLATES, BAR_WEIGHTS, type BarType } from './utils/constants';
 
 import BarSelector from './components/BarSelector';
 import WeightInput from './components/WeightInput';
@@ -100,9 +100,6 @@ export default function App() {
     });
   }
 
-  const kgUnit: PlateUnit = 'kg';
-  const lbUnit: PlateUnit = 'lb';
-
   return (
     <div className="min-h-screen bg-zinc-950 text-white px-4 py-8">
       <div className="max-w-5xl mx-auto flex flex-col gap-8">
@@ -132,7 +129,7 @@ export default function App() {
               label="KGS — Eleiko"
             />
             <div className="overflow-x-auto">
-              <Sleeve plates={kgActive.plates} unit={kgUnit} isEleiko={true} />
+              <Sleeve plates={kgActive.plates} variant="eleiko" />
             </div>
             <InventoryToggles
               plates={KG_PLATES.map((p) => p.weight)}
@@ -153,7 +150,7 @@ export default function App() {
               label="LBS — Iron"
             />
             <div className="overflow-x-auto">
-              <Sleeve plates={lbActive.plates} unit={lbUnit} isEleiko={false} />
+              <Sleeve plates={lbActive.plates} variant="iron" />
             </div>
             <InventoryToggles
               plates={LB_PLATES.map((p) => p.weight)}

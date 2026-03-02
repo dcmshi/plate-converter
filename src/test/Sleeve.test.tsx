@@ -14,37 +14,31 @@ const lbPlates: PlateCount[] = [
 ];
 
 describe('Sleeve', () => {
-  it('renders with KG plates', () => {
-    const { container } = render(
-      <Sleeve plates={kgPlates} unit="kg" isEleiko={true} />,
-    );
+  it('renders with eleiko plates', () => {
+    const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
     expect(container.firstChild).not.toBeNull();
   });
 
-  it('renders with LB plates', () => {
-    const { container } = render(
-      <Sleeve plates={lbPlates} unit="lb" isEleiko={false} />,
-    );
+  it('renders with iron plates', () => {
+    const { container } = render(<Sleeve plates={lbPlates} variant="iron" />);
     expect(container.firstChild).not.toBeNull();
   });
 
   it('shows "No plates" when empty', () => {
-    render(<Sleeve plates={[]} unit="kg" isEleiko={true} />);
+    render(<Sleeve plates={[]} variant="eleiko" />);
     expect(screen.getByText('No plates')).toBeInTheDocument();
   });
 
   it('renders each plate instance individually (count=2 → two elements)', () => {
     const { container } = render(
-      <Sleeve plates={[{ weight: 25, count: 2 }]} unit="kg" isEleiko={true} />,
+      <Sleeve plates={[{ weight: 25, count: 2 }]} variant="eleiko" />,
     );
-    // Two plate divs should be rendered, not one with a ×2 label
     const plateDivs = container.querySelectorAll('[style*="background-color: rgb(210, 39, 48)"]');
     expect(plateDivs).toHaveLength(2);
   });
 
   it('renders plates with count 0 as empty', () => {
-    const zeroCounts: PlateCount[] = [{ weight: 25, count: 0 }];
-    render(<Sleeve plates={zeroCounts} unit="kg" isEleiko={true} />);
+    render(<Sleeve plates={[{ weight: 25, count: 0 }]} variant="eleiko" />);
     expect(screen.getByText('No plates')).toBeInTheDocument();
   });
 });

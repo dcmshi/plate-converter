@@ -1,3 +1,4 @@
+import { formatKg, formatLb, formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
 import BoundsTrack from './BoundsTrack';
@@ -10,12 +11,8 @@ interface InfoPanelProps {
   label: string; // "KGS" | "LBS"
 }
 
-function fmtWeight(n: number, unit: PlateUnit) {
-  if (unit === 'kg') {
-    return `${n % 1 === 0 ? n : n.toFixed(1)}`;
-  }
-  const rounded = Math.round(n * 100) / 100;
-  return Number.isInteger(rounded) ? `${rounded}` : rounded.toFixed(2).replace(/\.?0+$/, '');
+function fmtWeight(n: number, unit: PlateUnit): string {
+  return unit === 'kg' ? formatKg(n) : formatLb(n);
 }
 
 export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, label }: InfoPanelProps) {
@@ -34,7 +31,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
 
         {!bounds.isExact && (
           <span className="ml-auto text-xs text-zinc-500">
-            exact: {fmtWeight(bounds.exact, unit)} {unit}
+            exact: {formatWeight(bounds.exact, unit)}
           </span>
         )}
       </div>

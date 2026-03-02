@@ -1,3 +1,4 @@
+import { formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
 
@@ -8,21 +9,12 @@ interface BoundsTrackProps {
   onSelect: (side: 'down' | 'up') => void;
 }
 
-function fmt(n: number, unit: PlateUnit) {
-  if (unit === 'kg') {
-    return `${n % 1 === 0 ? n : n.toFixed(1)} kg`;
-  }
-  const rounded = Math.round(n * 100) / 100;
-  const str = Number.isInteger(rounded) ? `${rounded}` : rounded.toFixed(2).replace(/\.?0+$/, '');
-  return `${str} lb`;
-}
-
 export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: BoundsTrackProps) {
   if (bounds.isExact) {
     return (
       <div className="flex items-center gap-2 text-xs text-emerald-400">
         <span className="text-emerald-500">✓</span>
-        <span>Exact match — {fmt(bounds.exact, unit)}</span>
+        <span>Exact match — {formatWeight(bounds.exact, unit)}</span>
       </div>
     );
   }
@@ -46,7 +38,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
             : 'text-zinc-500 hover:text-zinc-300'
         }`}
       >
-        {fmt(downW, unit)}
+        {formatWeight(downW, unit)}
       </button>
 
       {/* Track */}
@@ -67,7 +59,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
             : 'text-zinc-500 hover:text-zinc-300'
         }`}
       >
-        {fmt(upW, unit)}
+        {formatWeight(upW, unit)}
       </button>
     </div>
   );

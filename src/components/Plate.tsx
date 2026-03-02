@@ -2,19 +2,20 @@ import {
   KG_PLATES,
   LB_PLATES,
   PLATE_HEIGHT,
+  LB_PLATE_HEIGHT,
   KG_PLATE_WIDTH,
   LB_PLATE_WIDTH,
-  type PlateUnit,
 } from '../utils/constants';
+
+export type PlateVariant = 'eleiko' | 'iron';
 
 interface PlateProps {
   weight: number;
-  unit: PlateUnit;
-  isEleiko: boolean;
+  variant: PlateVariant;
 }
 
-export default function Plate({ weight, unit, isEleiko }: PlateProps) {
-  if (isEleiko && unit === 'kg') {
+export default function Plate({ weight, variant }: PlateProps) {
+  if (variant === 'eleiko') {
     const def = KG_PLATES.find((p) => p.weight === weight);
     if (!def) return null;
 
@@ -36,18 +37,11 @@ export default function Plate({ weight, unit, isEleiko }: PlateProps) {
     );
   }
 
-  // Iron (LBS) plate
+  // Iron plate
   const def = LB_PLATES.find((p) => p.weight === weight);
   if (!def) return null;
 
-  const sizeToHeight: Record<string, number> = {
-    large: 160,
-    medium: 140,
-    small: 110,
-    smaller: 90,
-    smallest: 70,
-  };
-  const height = sizeToHeight[def.size] ?? 100;
+  const height = LB_PLATE_HEIGHT[def.size];
   const width = LB_PLATE_WIDTH[weight] ?? 12;
   const label = Number.isInteger(weight) ? `${weight}` : weight.toFixed(1);
 
@@ -70,7 +64,7 @@ export default function Plate({ weight, unit, isEleiko }: PlateProps) {
       <span
         style={{
           fontSize: '7px',
-          color: '#a1a1aa',
+          color: '#d4d4d8',
           fontFamily: 'monospace',
           fontWeight: 700,
           letterSpacing: '0.05em',

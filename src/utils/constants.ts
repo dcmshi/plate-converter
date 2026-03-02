@@ -67,6 +67,15 @@ export const KG_PLATE_WIDTH: Record<number, number> = {
   0.5:  6,
 };
 
+// Height per iron plate size (px) — mirrors PLATE_HEIGHT for kg plates
+export const LB_PLATE_HEIGHT: Record<IronSize, number> = {
+  large:   160,
+  medium:  140,
+  small:   110,
+  smaller:  90,
+  smallest: 70,
+};
+
 // Width per weight for lb plates (px)
 export const LB_PLATE_WIDTH: Record<number, number> = {
   45:  22,

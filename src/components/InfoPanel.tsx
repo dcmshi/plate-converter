@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { formatKg, formatLb, formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
@@ -11,13 +12,20 @@ interface InfoPanelProps {
   label: string; // "KGS" | "LBS"
 }
 
-function fmtWeight(n: number, unit: PlateUnit): string {
-  return unit === 'kg' ? formatKg(n) : formatLb(n);
-}
-
 export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, label }: InfoPanelProps) {
+  const [copied, setCopied] = useState(false);
+
   const active = activeSide === 'down' ? bounds.down : bounds.up;
   const achievable = active.achievable;
+  const fmtAchievable = unit === 'kg' ? formatKg(achievable) : formatLb(achievable);
+
+  function handleCopy() {
+    const text = `${fmtAchievable} ${unit} — ${active.plates.map((p) => `${p.count}×${p.weight}${unit}`).join(' + ')} per side`;
+    navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }).catch(() => {});
+  }
 
   return (
     <div className="flex flex-col gap-2 mb-3">
@@ -25,7 +33,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
       <div className="flex items-baseline gap-2">
         <span className="text-xs text-zinc-500 uppercase tracking-widest">{label}</span>
         <span className="text-2xl font-bold text-white tabular-nums">
-          {fmtWeight(achievable, unit)}
+          {fmtAchievable}
         </span>
         <span className="text-sm text-zinc-400">{unit}</span>
 
@@ -79,15 +87,14 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             {active.plates.map((p) => `${p.count}×${p.weight}`).join(' + ')} per side
           </span>
           <button
-            onClick={() => {
-              const text = `${fmtWeight(achievable, unit)} ${unit} — ${active.plates.map((p) => `${p.count}×${p.weight}${unit}`).join(' + ')} per side`;
-              navigator.clipboard.writeText(text);
-            }}
+            onClick={handleCopy}
             aria-label="Copy plate configuration"
-            title="Copy to clipboard"
-            className="text-zinc-600 hover:text-zinc-300 transition-colors text-xs flex-shrink-0"
+            title={copied ? 'Copied!' : 'Copy to clipboard'}
+            className={`transition-colors text-xs flex-shrink-0 ${
+              copied ? 'text-emerald-400' : 'text-zinc-400 hover:text-zinc-100'
+            }`}
           >
-            ⎘
+            {copied ? '✓' : '⎘'}
           </button>
         </div>
       )}

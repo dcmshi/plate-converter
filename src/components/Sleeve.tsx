@@ -34,7 +34,8 @@ export default function Sleeve({ plates, variant }: SleeveProps) {
   const hasPlates = plates.length > 0 && plates.some((p) => p.count > 0);
 
   return (
-    <div className="flex items-center overflow-x-auto py-2">
+    <div className="flex items-center overflow-x-auto py-2 gap-2">
+      <span className="text-[10px] text-zinc-600 uppercase tracking-widest flex-shrink-0">per side</span>
       <BarStub />
       <div className="flex items-center gap-[2px]">
         {hasPlates ? (

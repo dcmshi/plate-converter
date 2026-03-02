@@ -29,9 +29,9 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
 
   return (
     <div className="flex items-center gap-2">
-      {/* Down label */}
       <button
         onClick={() => onSelect('down')}
+        aria-label={`Select rounded-down weight: ${formatWeight(downW, unit)}`}
         className={`text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'down'
             ? 'text-white font-semibold'
@@ -41,18 +41,17 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
         {formatWeight(downW, unit)}
       </button>
 
-      {/* Track */}
       <div className="relative flex-1 h-1 bg-zinc-700 rounded-full min-w-[60px]">
-        {/* Dot */}
         <div
+          aria-hidden="true"
           className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-400 -translate-x-1/2"
           style={{ left: `${dotPos * 100}%` }}
         />
       </div>
 
-      {/* Up label */}
       <button
         onClick={() => onSelect('up')}
+        aria-label={`Select rounded-up weight: ${formatWeight(upW, unit)}`}
         className={`text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'up'
             ? 'text-white font-semibold'

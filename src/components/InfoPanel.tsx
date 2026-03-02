@@ -41,6 +41,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
         <div className="flex gap-1 p-0.5 bg-zinc-800 rounded-lg self-start">
           <button
             onClick={() => onSelectSide('down')}
+            aria-pressed={activeSide === 'down'}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               activeSide === 'down'
                 ? 'bg-zinc-600 text-white'
@@ -51,6 +52,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
           </button>
           <button
             onClick={() => onSelectSide('up')}
+            aria-pressed={activeSide === 'up'}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               activeSide === 'up'
                 ? 'bg-zinc-600 text-white'
@@ -70,10 +72,23 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
         onSelect={onSelectSide}
       />
 
-      {/* Plate breakdown: per-side summary */}
+      {/* Plate breakdown: per-side summary with copy button */}
       {active.plates.length > 0 && (
-        <div className="text-xs text-zinc-500 font-mono">
-          {active.plates.map((p) => `${p.count}×${p.weight}`).join(' + ')} per side
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-500 font-mono">
+            {active.plates.map((p) => `${p.count}×${p.weight}`).join(' + ')} per side
+          </span>
+          <button
+            onClick={() => {
+              const text = `${fmtWeight(achievable, unit)} ${unit} — ${active.plates.map((p) => `${p.count}×${p.weight}${unit}`).join(' + ')} per side`;
+              navigator.clipboard.writeText(text);
+            }}
+            aria-label="Copy plate configuration"
+            title="Copy to clipboard"
+            className="text-zinc-600 hover:text-zinc-300 transition-colors text-xs flex-shrink-0"
+          >
+            ⎘
+          </button>
         </div>
       )}
     </div>

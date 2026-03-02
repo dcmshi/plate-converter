@@ -1,4 +1,4 @@
-# IronConverter
+# PlateConverter
 
 A barbell plate loading visualizer for lifters who train in both metric (Eleiko KGS) and commercial imperial (LBS) gyms.
 
@@ -7,10 +7,11 @@ Enter a target weight in either unit and instantly see the exact plate configura
 ## Features
 
 - Synced KGS / LBS inputs — editing one updates the other
-- Eleiko color-coded bumper plates (IWF standard)
-- Commercial iron plates (Black / Dark Grey)
-- Men's 20 kg / Women's 15 kg / Iron 45 lb bar selector
-- Rounded-down and rounded-up configurations with a visual bounds track
+- Eleiko color-coded bumper and change plates (IWF standard)
+- Commercial iron plates (Black / Dark Grey) with weight labels
+- Men's (20 kg / 44 lb) and Women's (15 kg / 33 lb) bar selector — shared across both panels
+- Plates rendered individually on the bar sleeve (no count abbreviations)
+- Round Down / Round Up toggle with a visual bounds track for non-exact weights
 - Per-side inventory toggles — disable plates you don't have
 
 ---
@@ -20,17 +21,17 @@ Enter a target weight in either unit and instantly see the exact plate configura
 ```
 src/
   utils/
-    constants.ts        # Plate inventories, bar weights, colors, dimensions
-    conversion.ts       # kg <-> lb math, rounding helpers
-    loading.ts          # Greedy plate algorithm + bounds (round-down / round-up)
+    constants.ts          # Plate inventories, bar weights, colors, dimensions
+    conversion.ts         # kg <-> lb math, rounding helpers
+    loading.ts            # Greedy plate algorithm + bounds (round-down / round-up)
   components/
-    Plate.tsx           # Single plate visual (Eleiko or Iron)
-    Sleeve.tsx          # Half-barbell sleeve with stacked plates
-    BarSelector.tsx     # Men's / Women's / Iron bar toggle
-    WeightInput.tsx     # Synced numeric input (kg or lb)
-    InfoPanel.tsx       # Achievable weight, exact value, bounds + toggle
-    BoundsTrack.tsx     # Visual range track (↓ exact ↑)
-    InventoryToggles.tsx # Collapsible per-side plate enable/disable
+    Plate.tsx             # Single plate visual (Eleiko or Iron)
+    Sleeve.tsx            # Half-barbell sleeve — expands PlateCount into individual plates
+    BarSelector.tsx       # Men's / Women's shared bar toggle
+    WeightInput.tsx       # Synced numeric input (kg or lb)
+    InfoPanel.tsx         # Achievable weight, exact value, round-down/up toggle, breakdown
+    BoundsTrack.tsx       # Visual range track showing where exact falls between bounds
+    InventoryToggles.tsx  # Collapsible per-side plate enable/disable
   test/
     conversion.test.ts
     loading.test.ts
@@ -39,6 +40,7 @@ src/
     BarSelector.test.tsx
     WeightInput.test.tsx
     BoundsTrack.test.tsx
+    InfoPanel.test.tsx
     InventoryToggles.test.tsx
   App.tsx
   main.tsx

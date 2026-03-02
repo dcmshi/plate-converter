@@ -49,6 +49,13 @@ describe('greedyLoad', () => {
     expect(plates[45]).toBe(2);
     expect(result.remainder).toBeCloseTo(0);
   });
+
+  it('returns empty plates and full remainder with an empty inventory', () => {
+    const result = greedyLoad(40, []);
+    expect(result.perSide).toBe(0);
+    expect(result.remainder).toBeCloseTo(40);
+    expect(result.plates).toHaveLength(0);
+  });
 });
 
 describe('getBounds - KGS', () => {
@@ -120,5 +127,27 @@ describe('getBounds - LBS', () => {
     const result = getBounds(100, BAR_LB, []);
     expect(result.down.achievable).toBe(BAR_LB);
     expect(result.up.achievable).toBe(BAR_LB);
+  });
+
+  it('empty inventory sets isExact=false when target exceeds bar weight', () => {
+    const result = getBounds(100, BAR_LB, []);
+    expect(result.isExact).toBe(false);
+    expect(result.down.plates).toHaveLength(0);
+  });
+});
+
+describe('getBounds — edge cases', () => {
+  it('sets isExact=true and returns bar weight when target is below bar weight', () => {
+    const result = getBounds(10, 20, KG_INVENTORY);
+    expect(result.isExact).toBe(true);
+    expect(result.down.achievable).toBe(20);
+    expect(result.down.plates).toHaveLength(0);
+  });
+
+  it('sets isExact=true when target equals bar weight (zero per-side load)', () => {
+    const result = getBounds(20, 20, KG_INVENTORY);
+    expect(result.isExact).toBe(true);
+    expect(result.down.achievable).toBe(20);
+    expect(result.down.plates).toHaveLength(0);
   });
 });

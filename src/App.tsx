@@ -123,7 +123,7 @@ export default function App() {
           <div className="bg-zinc-900 rounded-xl p-4 flex flex-col gap-2">
             <InfoPanel
               bounds={kgBounds}
-              unit={kgUnit}
+              unit="kg"
               activeSide={kgBoundSide}
               onSelectSide={setKgBoundSide}
               label="KGS — Eleiko"
@@ -134,7 +134,7 @@ export default function App() {
             <InventoryToggles
               plates={KG_PLATES.map((p) => p.weight)}
               enabled={kgEnabled}
-              unit={kgUnit}
+              unit="kg"
               open={kgTogglesOpen}
               onToggleOpen={() => setKgTogglesOpen((v) => !v)}
               onTogglePlate={toggleKgPlate}
@@ -144,7 +144,7 @@ export default function App() {
           <div className="bg-zinc-900 rounded-xl p-4 flex flex-col gap-2">
             <InfoPanel
               bounds={lbBounds}
-              unit={lbUnit}
+              unit="lb"
               activeSide={lbBoundSide}
               onSelectSide={setLbBoundSide}
               label="LBS — Iron"
@@ -155,7 +155,7 @@ export default function App() {
             <InventoryToggles
               plates={LB_PLATES.map((p) => p.weight)}
               enabled={lbEnabled}
-              unit={lbUnit}
+              unit="lb"
               open={lbTogglesOpen}
               onToggleOpen={() => setLbTogglesOpen((v) => !v)}
               onTogglePlate={toggleLbPlate}

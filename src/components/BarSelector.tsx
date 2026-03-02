@@ -6,9 +6,8 @@ interface BarSelectorProps {
 }
 
 const BAR_LABELS: Record<BarType, string> = {
-  mens:   "Men's 20 kg",
-  womens: "Women's 15 kg",
-  iron:   'Iron 45 lb',
+  mens:   "Men's 20 kg / 44 lb",
+  womens: "Women's 15 kg / 33 lb",
 };
 
 export default function BarSelector({ activeBar, onChange }: BarSelectorProps) {

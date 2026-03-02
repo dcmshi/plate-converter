@@ -108,7 +108,7 @@ export default function App() {
       <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-white">IronConverter</h1>
+          <h1 className="text-2xl font-bold tracking-tight text-white">PlateConverter</h1>
           <p className="text-xs text-zinc-500 mt-1">Eleiko KGS · Commercial LBS</p>
         </div>
 

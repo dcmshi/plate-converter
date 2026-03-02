@@ -25,7 +25,7 @@ export default function BarSelector({ activeBar, onChange }: BarSelectorProps) {
                 : 'text-zinc-400 hover:text-zinc-200'
             }`}
           >
-            {BAR_DISPLAY_NAME[bar]} {kg} kg / {lb} lb
+            {BAR_DISPLAY_NAME[bar]} {kg} kg / {Math.round(lb)} lb
           </button>
         );
       })}

@@ -21,12 +21,12 @@ export const KG_PLATES: KgPlate[] = [
   { weight: 20,  color: '#005EB8', colorName: 'Blue',   visualType: 'bumper' },
   { weight: 15,  color: '#FFD100', colorName: 'Yellow', visualType: 'bumper' },
   { weight: 10,  color: '#00824D', colorName: 'Green',  visualType: 'bumper' },
-  { weight: 5,   color: '#E8E8E8', colorName: 'White',  visualType: 'standard', borderColor: '#aaa' },
+  { weight: 5,   color: '#FFFFFF', colorName: 'White',  visualType: 'standard', borderColor: '#bbb' },
   { weight: 2.5, color: '#D22730', colorName: 'Red',    visualType: 'change' },
   { weight: 2,   color: '#005EB8', colorName: 'Blue',   visualType: 'change' },
   { weight: 1.5, color: '#FFD100', colorName: 'Yellow', visualType: 'change' },
   { weight: 1,   color: '#00824D', colorName: 'Green',  visualType: 'change' },
-  { weight: 0.5, color: '#E8E8E8', colorName: 'White',  visualType: 'fractional', borderColor: '#aaa' },
+  { weight: 0.5, color: '#FFFFFF', colorName: 'White',  visualType: 'fractional', borderColor: '#bbb' },
 ];
 
 export const LB_PLATES: LbPlate[] = [

@@ -1,3 +1,6 @@
+// Threshold for treating a floating-point remainder as zero
+const FLOAT_EPSILON = 0.001;
+
 export interface PlateCount {
   weight: number;
   count: number;
@@ -41,7 +44,7 @@ export function greedyLoad(
   }
 
   // Round tiny floating point remainders to 0
-  remaining = Math.abs(remaining) < 0.001 ? 0 : remaining;
+  remaining = Math.abs(remaining) < FLOAT_EPSILON ? 0 : remaining;
 
   const perSide = targetPerSide - remaining;
 
@@ -81,11 +84,11 @@ export function getBounds(
   let upAchievable = downAchievable;
   let upResult = downResult;
 
-  if (downResult.remainder > 0.001 && smallestPlate > 0) {
+  if (downResult.remainder > FLOAT_EPSILON && smallestPlate > 0) {
     // Try adding one of the smallest plate to exceed the target
     // but first check if we can add a plate to just cover the remainder
     for (let i = sorted.length - 1; i >= 0; i--) {
-      if (sorted[i] >= downResult.remainder - 0.001) {
+      if (sorted[i] >= downResult.remainder - FLOAT_EPSILON) {
         // This plate covers the remainder (or is the smallest that goes over)
         const upPerSide = downResult.perSide + sorted[i];
         const candidate = greedyLoad(upPerSide, inventory);
@@ -104,7 +107,7 @@ export function getBounds(
     }
   }
 
-  const isExact = downResult.remainder < 0.001;
+  const isExact = downResult.remainder < FLOAT_EPSILON;
 
   return {
     down: downResult,

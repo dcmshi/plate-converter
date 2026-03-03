@@ -26,6 +26,21 @@ describe('BoundsTrack — exact match', () => {
   });
 });
 
+describe('BoundsTrack — range === 0 (down === up)', () => {
+  it('renders both weight buttons without error when down and up are identical', () => {
+    const zeroRangeBounds: BoundsResult = {
+      down: { plates: [], achievable: 45, perSide: 0, remainder: 22.5 },
+      up:   { plates: [], achievable: 45, perSide: 0, remainder: 22.5 },
+      exact: 90,
+      isExact: false,
+    };
+    render(
+      <BoundsTrack bounds={zeroRangeBounds} unit="lb" activeSide="down" onSelect={() => {}} />,
+    );
+    expect(screen.getAllByText('45 lb')).toHaveLength(2);
+  });
+});
+
 describe('BoundsTrack — non-exact', () => {
   it('shows both bound labels', () => {
     render(

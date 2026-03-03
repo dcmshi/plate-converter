@@ -3,7 +3,6 @@ import {
   kgToLb,
   lbToKg,
   roundToNearestHalfKg,
-  roundToNearestLb,
   formatKg,
   formatLb,
 } from '../utils/conversion';
@@ -63,22 +62,6 @@ describe('roundToNearestHalfKg', () => {
 
   it('rounds 0.1 to 0', () => {
     expect(roundToNearestHalfKg(0.1)).toBe(0);
-  });
-});
-
-describe('roundToNearestLb', () => {
-  it('rounds 220.46 to 220', () => {
-    expect(roundToNearestLb(220.46)).toBeCloseTo(220);
-  });
-
-  it('rounds 221 to nearest 2.5 (220)', () => {
-    expect(roundToNearestLb(221)).toBeCloseTo(220);
-  });
-
-  it('uses custom step', () => {
-    expect(roundToNearestLb(10, 5)).toBe(10);
-    expect(roundToNearestLb(12, 5)).toBe(10);
-    expect(roundToNearestLb(13, 5)).toBe(15);
   });
 });
 

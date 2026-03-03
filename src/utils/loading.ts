@@ -81,29 +81,17 @@ export function getBounds(
   const sorted = [...inventory].sort((a, b) => b - a);
   const smallestPlate = sorted[sorted.length - 1] ?? 0;
 
-  let upAchievable = downAchievable;
   let upResult = downResult;
 
   if (downResult.remainder > FLOAT_EPSILON && smallestPlate > 0) {
-    // Try adding one of the smallest plate to exceed the target
-    // but first check if we can add a plate to just cover the remainder
     for (let i = sorted.length - 1; i >= 0; i--) {
       if (sorted[i] >= downResult.remainder - FLOAT_EPSILON) {
-        // This plate covers the remainder (or is the smallest that goes over)
         const upPerSide = downResult.perSide + sorted[i];
         const candidate = greedyLoad(upPerSide, inventory);
         candidate.achievable = barWeight + candidate.perSide * 2;
         upResult = candidate;
-        upAchievable = candidate.achievable;
         break;
       }
-    }
-    // If nothing found, add the smallest plate
-    if (upAchievable === downAchievable) {
-      const upPerSide = downResult.perSide + smallestPlate;
-      upResult = greedyLoad(upPerSide, inventory);
-      upResult.achievable = barWeight + upResult.perSide * 2;
-      upAchievable = upResult.achievable;
     }
   }
 

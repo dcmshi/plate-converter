@@ -21,12 +21,10 @@ function parseUrlParams(search = window.location.search): { kg: number; bar: Bar
 }
 
 export default function App() {
-  const [kgInput, setKgInput] = useState<string>(() => String(parseUrlParams().kg));
-  const [lbInput, setLbInput] = useState<string>(() => {
-    const { kg } = parseUrlParams();
-    return String(Math.round(kgToLb(kg) * 100) / 100);
-  });
-  const [activeBar, setActiveBar] = useState<BarType>(() => parseUrlParams().bar);
+  const [{ kg: initialKg, bar: initialBar }] = useState(parseUrlParams);
+  const [kgInput, setKgInput] = useState(String(initialKg));
+  const [lbInput, setLbInput] = useState(String(Math.round(kgToLb(initialKg) * 100) / 100));
+  const [activeBar, setActiveBar] = useState<BarType>(initialBar);
   const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('up');
   const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('up');
 
@@ -77,14 +75,18 @@ export default function App() {
     window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
   }, [kgInput, activeBar]);
 
+  function resetBoundSides() {
+    setKgBoundSide('up');
+    setLbBoundSide('up');
+  }
+
   function handleKgChange(val: string) {
     setKgInput(val);
     const kg = parseFloat(val);
     if (!isNaN(kg) && kg >= 0) {
       setLbInput(String(Math.round(kgToLb(kg) * 100) / 100));
     }
-    setKgBoundSide('up');
-    setLbBoundSide('up');
+    resetBoundSides();
   }
 
   function handleLbChange(val: string) {
@@ -93,14 +95,12 @@ export default function App() {
     if (!isNaN(lb) && lb >= 0) {
       setKgInput(String(roundToNearestHalfKg(lbToKg(lb))));
     }
-    setKgBoundSide('up');
-    setLbBoundSide('up');
+    resetBoundSides();
   }
 
   function handleBarChange(bar: BarType) {
     setActiveBar(bar);
-    setKgBoundSide('up');
-    setLbBoundSide('up');
+    resetBoundSides();
   }
 
   function toggleKgPlate(weight: number) {
@@ -110,6 +110,7 @@ export default function App() {
       else next.add(weight);
       return next;
     });
+    resetBoundSides();
   }
 
   function toggleLbPlate(weight: number) {
@@ -119,6 +120,7 @@ export default function App() {
       else next.add(weight);
       return next;
     });
+    resetBoundSides();
   }
 
   return (

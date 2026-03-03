@@ -97,6 +97,21 @@ describe('InfoPanel — copy button', () => {
     expect(writeText).toHaveBeenCalledWith('100 kg — 1×25kg + 1×15kg per side');
   });
 
+  it('does not show ✓ and does not crash when clipboard write fails', async () => {
+    const writeText = vi.fn().mockRejectedValue(new Error('denied'));
+    Object.assign(navigator, { clipboard: { writeText } });
+
+    render(
+      <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+    );
+
+    fireEvent.click(screen.getByLabelText('Copy plate configuration'));
+    await new Promise((r) => setTimeout(r, 0));
+
+    // Copy button should still show ⎘, not ✓, after a failed write
+    expect(screen.getByLabelText('Copy plate configuration')).toHaveTextContent('⎘');
+  });
+
   it('shows ✓ after a successful copy', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.assign(navigator, { clipboard: { writeText } });

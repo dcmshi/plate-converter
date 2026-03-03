@@ -81,6 +81,20 @@ describe('InventoryToggles', () => {
     expect(onTogglePlate).toHaveBeenCalledWith(25);
   });
 
+  it('shows amber warning when all plates are disabled', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={new Set()}
+        unit="kg"
+        open={true}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+      />,
+    );
+    expect(screen.getByText('All plates disabled — only bar weight will load.')).toBeInTheDocument();
+  });
+
   it('applies line-through style for disabled plates', () => {
     const partialEnabled = new Set([25, 20]); // 15, 10, 5, 2.5 disabled
     render(

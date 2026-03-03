@@ -111,4 +111,40 @@ describe('App — inventory toggle', () => {
     // 40 kg/side without 25 kg → 2×20 per side
     expect(screen.getByText('2×20 per side')).toBeInTheDocument();
   });
+
+  it('resets bound side to up after toggling a plate', () => {
+    render(<App />);
+    // 100 kg → LB side is non-exact (220.46 lb → 87.73 lb/side) — pill is visible
+    fireEvent.click(screen.getByText('▼ Round Down'));
+    expect(screen.getByText('▼ Round Down')).toHaveClass('bg-zinc-600');
+
+    // Toggle a LB plate (second Inventory button = lb side)
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[1]);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 45 lb plate' }));
+
+    // Bound side should have reset to 'up'
+    expect(screen.getByText('▼ Round Down')).not.toHaveClass('bg-zinc-600');
+    expect(screen.getByText('▲ Round Up')).toHaveClass('bg-zinc-600');
+  });
+
+  it('does not change the URL when a plate is toggled', () => {
+    render(<App />);
+    const urlAfterRender = window.location.search;
+
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
+
+    expect(window.location.search).toBe(urlAfterRender);
+  });
+});
+
+describe('App — empty input', () => {
+  it('does not crash when the kg input is cleared', () => {
+    render(<App />);
+    const [kgInput] = screen.getAllByRole('spinbutton') as HTMLInputElement[];
+    fireEvent.change(kgInput, { target: { value: '' } });
+    expect(screen.getByText('PlateConverter')).toBeInTheDocument();
+  });
 });

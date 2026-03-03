@@ -67,3 +67,54 @@ describe('WeightInput', () => {
     expect(screen.getByRole('spinbutton')).toHaveClass('border-red-500');
   });
 });
+
+describe('WeightInput — keyboard increment', () => {
+  it('ArrowUp increments kg by 0.5', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="100" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowUp' });
+    expect(onChange).toHaveBeenCalledWith('100.5');
+  });
+
+  it('ArrowDown decrements kg by 0.5', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="100" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowDown' });
+    expect(onChange).toHaveBeenCalledWith('99.5');
+  });
+
+  it('ArrowUp increments lb by 2.5', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="225" unit="lb" onChange={onChange} label="Pounds" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowUp' });
+    expect(onChange).toHaveBeenCalledWith('227.5');
+  });
+
+  it('ArrowDown decrements lb by 2.5', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="225" unit="lb" onChange={onChange} label="Pounds" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowDown' });
+    expect(onChange).toHaveBeenCalledWith('222.5');
+  });
+
+  it('ArrowDown clamps to 0', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="0.5" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowDown' });
+    expect(onChange).toHaveBeenCalledWith('0');
+  });
+
+  it('ArrowUp clamps to max (500 kg)', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="500" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'ArrowUp' });
+    expect(onChange).toHaveBeenCalledWith('500');
+  });
+
+  it('other keys are ignored', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="100" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.keyDown(screen.getByRole('spinbutton'), { key: 'Enter' });
+    expect(onChange).not.toHaveBeenCalled();
+  });
+});

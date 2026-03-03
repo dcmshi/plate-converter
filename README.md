@@ -6,7 +6,7 @@ Enter a target weight in either unit and instantly see the exact plate configura
 
 ## Features
 
-- Synced KGS / LBS inputs — editing one updates the other
+- Synced KGS / LBS inputs — editing one updates the other; arrow keys step ±0.5 kg / ±2.5 lb
 - Eleiko color-coded bumper and change plates (IWF standard)
 - Commercial iron plates (Black / Dark Grey) with weight labels
 - Men's (20 kg / 45 lb) and Women's (15 kg / 33 lb) bar selector — shared across both panels
@@ -29,7 +29,7 @@ src/
     Plate.tsx             # Single plate visual (Eleiko or Iron)
     Sleeve.tsx            # Half-barbell sleeve — expands PlateCount into individual plates
     BarSelector.tsx       # Men's / Women's shared bar toggle
-    WeightInput.tsx       # Synced numeric input (kg or lb)
+    WeightInput.tsx       # Synced numeric input (kg or lb) with arrow-key stepping
     InfoPanel.tsx         # Achievable weight, exact value, round-down/up toggle, breakdown
     BoundsTrack.tsx       # Visual range track showing where exact falls between bounds
     InventoryToggles.tsx  # Collapsible per-side plate enable/disable

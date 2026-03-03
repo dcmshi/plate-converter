@@ -27,8 +27,8 @@ export default function App() {
     return String(Math.round(kgToLb(kg) * 100) / 100);
   });
   const [activeBar, setActiveBar] = useState<BarType>(() => parseUrlParams().bar);
-  const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('down');
-  const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('down');
+  const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('up');
+  const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('up');
 
   const [kgEnabled, setKgEnabled] = useState<Set<number>>(
     new Set(KG_PLATES.map((p) => p.weight)),
@@ -83,8 +83,8 @@ export default function App() {
     if (!isNaN(kg) && kg >= 0) {
       setLbInput(String(Math.round(kgToLb(kg) * 100) / 100));
     }
-    setKgBoundSide('down');
-    setLbBoundSide('down');
+    setKgBoundSide('up');
+    setLbBoundSide('up');
   }
 
   function handleLbChange(val: string) {
@@ -93,14 +93,14 @@ export default function App() {
     if (!isNaN(lb) && lb >= 0) {
       setKgInput(String(roundToNearestHalfKg(lbToKg(lb))));
     }
-    setKgBoundSide('down');
-    setLbBoundSide('down');
+    setKgBoundSide('up');
+    setLbBoundSide('up');
   }
 
   function handleBarChange(bar: BarType) {
     setActiveBar(bar);
-    setKgBoundSide('down');
-    setLbBoundSide('down');
+    setKgBoundSide('up');
+    setLbBoundSide('up');
   }
 
   function toggleKgPlate(weight: number) {

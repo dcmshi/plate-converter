@@ -83,3 +83,29 @@ describe('InfoPanel — non-exact match', () => {
     expect(screen.getByText(/per side/)).toBeInTheDocument();
   });
 });
+
+describe('InfoPanel — copy button', () => {
+  it('calls clipboard.writeText with the formatted plate configuration', () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+
+    render(
+      <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+    );
+
+    fireEvent.click(screen.getByLabelText('Copy plate configuration'));
+    expect(writeText).toHaveBeenCalledWith('100 kg — 1×25kg + 1×15kg per side');
+  });
+
+  it('shows ✓ after a successful copy', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+
+    render(
+      <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+    );
+
+    fireEvent.click(screen.getByLabelText('Copy plate configuration'));
+    expect(await screen.findByText('✓')).toBeInTheDocument();
+  });
+});

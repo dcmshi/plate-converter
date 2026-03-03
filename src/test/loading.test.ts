@@ -150,4 +150,16 @@ describe('getBounds — edge cases', () => {
     expect(result.down.achievable).toBe(20);
     expect(result.down.plates).toHaveLength(0);
   });
+
+  it('up-bound uses smallest inventory plate to cover the per-side remainder', () => {
+    // (47.5 - 45) / 2 = 1.25 per side — not achievable with [5, 2.5]
+    // down: 0 plates (neither fits in 1.25), achievable = 45 (bar only)
+    // up:   2.5 >= 1.25 remainder → 1×2.5 per side, achievable = 50
+    const result = getBounds(47.5, 45, [5, 2.5]);
+    expect(result.isExact).toBe(false);
+    expect(result.down.achievable).toBe(45);
+    expect(result.up.achievable).toBe(50);
+    const upPlates = Object.fromEntries(result.up.plates.map((p) => [p.weight, p.count]));
+    expect(upPlates[2.5]).toBe(1);
+  });
 });

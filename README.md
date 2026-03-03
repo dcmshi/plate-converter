@@ -9,7 +9,7 @@ Enter a target weight in either unit and instantly see the exact plate configura
 - Synced KGS / LBS inputs — editing one updates the other
 - Eleiko color-coded bumper and change plates (IWF standard)
 - Commercial iron plates (Black / Dark Grey) with weight labels
-- Men's (20 kg / 44.09 lb) and Women's (15 kg / 33.07 lb) bar selector — shared across both panels
+- Men's (20 kg / 44 lb) and Women's (15 kg / 33 lb) bar selector — shared across both panels
 - Plates rendered individually on the bar sleeve (no count abbreviations)
 - Round Down / Round Up toggle with a visual bounds track for non-exact weights
 - Per-side inventory toggles — disable plates you don't have

@@ -34,6 +34,13 @@ describe('WeightInput', () => {
     expect(onChange).toHaveBeenCalledWith('');
   });
 
+  it('passes "0" through to onChange', () => {
+    const onChange = vi.fn();
+    render(<WeightInput value="100" unit="kg" onChange={onChange} label="Kilograms" />);
+    fireEvent.change(screen.getByRole('spinbutton'), { target: { value: '0' } });
+    expect(onChange).toHaveBeenCalledWith('0');
+  });
+
   it('clamps negative input to "0"', () => {
     const onChange = vi.fn();
     render(<WeightInput value="0" unit="kg" onChange={onChange} label="Kilograms" />);

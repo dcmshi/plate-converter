@@ -39,8 +39,8 @@ export const LB_PLATES: LbPlate[] = [
 
 // Bar weights
 export const BAR_WEIGHTS = {
-  mens:   { kg: 20, lb: 44.09 },
-  womens: { kg: 15, lb: 33.07 },
+  mens:   { kg: 20, lb: 45 },
+  womens: { kg: 15, lb: 33 },
 } as const;
 
 export type BarType = keyof typeof BAR_WEIGHTS;

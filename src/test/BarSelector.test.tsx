@@ -5,7 +5,7 @@ import BarSelector from '../components/BarSelector';
 describe('BarSelector', () => {
   it('renders both bar options with rounded lb weights', () => {
     render(<BarSelector activeBar="mens" onChange={() => {}} />);
-    expect(screen.getByText("Men's 20 kg / 44 lb")).toBeInTheDocument();
+    expect(screen.getByText("Men's 20 kg / 45 lb")).toBeInTheDocument();
     expect(screen.getByText("Women's 15 kg / 33 lb")).toBeInTheDocument();
   });
 

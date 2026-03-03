@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { kgToLb, lbToKg, roundToNearestHalfKg } from './utils/conversion';
 import { getBounds } from './utils/loading';
 import { KG_PLATES, LB_PLATES, BAR_WEIGHTS, type BarType } from './utils/constants';
@@ -11,10 +11,22 @@ import InventoryToggles from './components/InventoryToggles';
 
 const DEFAULT_KG = 100;
 
+function parseUrlParams(search = window.location.search): { kg: number; bar: BarType } {
+  const params = new URLSearchParams(search);
+  const kgStr = params.get('kg');
+  const n = kgStr !== null ? parseFloat(kgStr) : NaN;
+  const kg = !isNaN(n) && n >= 0 && n <= 500 ? n : DEFAULT_KG;
+  const bar: BarType = params.get('bar') === 'womens' ? 'womens' : 'mens';
+  return { kg, bar };
+}
+
 export default function App() {
-  const [kgInput, setKgInput] = useState<string>(String(DEFAULT_KG));
-  const [lbInput, setLbInput] = useState<string>(String(Math.round(kgToLb(DEFAULT_KG) * 100) / 100));
-  const [activeBar, setActiveBar] = useState<BarType>('mens');
+  const [kgInput, setKgInput] = useState<string>(() => String(parseUrlParams().kg));
+  const [lbInput, setLbInput] = useState<string>(() => {
+    const { kg } = parseUrlParams();
+    return String(Math.round(kgToLb(kg) * 100) / 100);
+  });
+  const [activeBar, setActiveBar] = useState<BarType>(() => parseUrlParams().bar);
   const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('down');
   const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('down');
 
@@ -55,6 +67,15 @@ export default function App() {
 
   const kgActive = kgBoundSide === 'down' ? kgBounds.down : kgBounds.up;
   const lbActive = lbBoundSide === 'down' ? lbBounds.down : lbBounds.up;
+
+  useEffect(() => {
+    const params = new URLSearchParams();
+    const kgNum = parseFloat(kgInput);
+    if (!isNaN(kgNum)) params.set('kg', kgInput);
+    if (activeBar !== 'mens') params.set('bar', activeBar);
+    const qs = params.toString();
+    window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+  }, [kgInput, activeBar]);
 
   function handleKgChange(val: string) {
     setKgInput(val);

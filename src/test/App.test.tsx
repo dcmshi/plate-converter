@@ -1,6 +1,51 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import App from '../App';
+
+afterEach(() => {
+  window.history.pushState({}, '', '/');
+});
+
+describe('App — URL params', () => {
+
+  it('?kg=150 initialises kg input to 150 and syncs lb', () => {
+    window.history.pushState({}, '', '?kg=150');
+    render(<App />);
+    const [kgInput, lbInput] = screen.getAllByRole('spinbutton') as HTMLInputElement[];
+    expect(kgInput.value).toBe('150');
+    // kgToLb(150) = 330.693 → Math.round(...*100)/100 = 330.69
+    expect(lbInput.value).toBe('330.69');
+  });
+
+  it('?kg=150&bar=womens activates the Women\'s bar', () => {
+    window.history.pushState({}, '', '?kg=150&bar=womens');
+    render(<App />);
+    const womensButton = screen.getByRole('button', { name: /Women's/ });
+    expect(womensButton).toHaveClass('bg-zinc-600');
+  });
+
+  it('?kg=abc (invalid) falls back to DEFAULT_KG (100)', () => {
+    window.history.pushState({}, '', '?kg=abc');
+    render(<App />);
+    const [kgInput] = screen.getAllByRole('spinbutton') as HTMLInputElement[];
+    expect(kgInput.value).toBe('100');
+  });
+
+  it('?kg=9999 (over max) falls back to DEFAULT_KG (100)', () => {
+    window.history.pushState({}, '', '?kg=9999');
+    render(<App />);
+    const [kgInput] = screen.getAllByRole('spinbutton') as HTMLInputElement[];
+    expect(kgInput.value).toBe('100');
+  });
+
+  it('no params defaults to 100 kg / Men\'s bar', () => {
+    render(<App />);
+    const [kgInput] = screen.getAllByRole('spinbutton') as HTMLInputElement[];
+    expect(kgInput.value).toBe('100');
+    const mensButton = screen.getByRole('button', { name: /Men's/ });
+    expect(mensButton).toHaveClass('bg-zinc-600');
+  });
+});
 
 describe('App — initial state', () => {
   it('renders the app title', () => {

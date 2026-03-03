@@ -44,41 +44,43 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
         )}
       </div>
 
-      {/* Round down / up toggle — only shown for non-exact matches */}
-      {!bounds.isExact && (
-        <div className="flex gap-1 p-0.5 bg-zinc-800 rounded-lg self-start">
-          <button
-            onClick={() => onSelectSide('down')}
-            aria-pressed={activeSide === 'down'}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-              activeSide === 'down'
-                ? 'bg-zinc-600 text-white'
-                : 'text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            ▼ Round Down
-          </button>
-          <button
-            onClick={() => onSelectSide('up')}
-            aria-pressed={activeSide === 'up'}
-            className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
-              activeSide === 'up'
-                ? 'bg-zinc-600 text-white'
-                : 'text-zinc-400 hover:text-zinc-200'
-            }`}
-          >
-            ▲ Round Up
-          </button>
+      {/* Round down / up toggle + bounds track — same row */}
+      <div className="flex items-center gap-3">
+        {!bounds.isExact && (
+          <div className="flex gap-1 p-0.5 bg-zinc-800 rounded-lg shrink-0">
+            <button
+              onClick={() => onSelectSide('down')}
+              aria-pressed={activeSide === 'down'}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+                activeSide === 'down'
+                  ? 'bg-zinc-600 text-white'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              ▼ Round Down
+            </button>
+            <button
+              onClick={() => onSelectSide('up')}
+              aria-pressed={activeSide === 'up'}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+                activeSide === 'up'
+                  ? 'bg-zinc-600 text-white'
+                  : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              ▲ Round Up
+            </button>
+          </div>
+        )}
+        <div className="flex-1 min-w-0">
+          <BoundsTrack
+            bounds={bounds}
+            unit={unit}
+            activeSide={activeSide}
+            onSelect={onSelectSide}
+          />
         </div>
-      )}
-
-      {/* Bounds track */}
-      <BoundsTrack
-        bounds={bounds}
-        unit={unit}
-        activeSide={activeSide}
-        onSelect={onSelectSide}
-      />
+      </div>
 
       {/* Plate breakdown: per-side summary with copy button */}
       {active.plates.length > 0 && (

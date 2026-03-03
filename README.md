@@ -13,6 +13,7 @@ Enter a target weight in either unit and instantly see the exact plate configura
 - Plates rendered individually on the bar sleeve (no count abbreviations)
 - Round Down / Round Up toggle with a visual bounds track for non-exact weights
 - Per-side inventory toggles — disable plates you don't have
+- Shareable deep links — `?kg=150&bar=womens` loads that exact configuration on arrival
 
 ---
 

@@ -4,6 +4,8 @@ A barbell plate loading visualizer for lifters who train in both metric (Eleiko 
 
 Enter a target weight in either unit and instantly see the exact plate configuration for both standards, side by side.
 
+![PlateConverter — 150 kg loaded, showing Eleiko color-coded plates (KGS) and iron plates (LBS)](public/screenshot.png)
+
 ## Features
 
 - Synced KGS / LBS inputs — editing one updates the other; arrow keys step ±0.5 kg / ±2.5 lb

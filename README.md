@@ -14,8 +14,10 @@ Enter a target weight in either unit and instantly see the exact plate configura
 - Men's (20 kg / 45 lb) and Women's (15 kg / 33 lb) bar selector — shared across both panels
 - Plates rendered individually on the bar sleeve (no count abbreviations)
 - Round Down / Round Up toggle with a visual bounds track for non-exact weights
-- Per-side inventory toggles — disable plates you don't have
-- Shareable deep links — `?kg=150&bar=womens` loads that exact configuration on arrival
+- Per-side inventory toggles — disable plates you don't have; choices persist across visits
+- Inventory presets — save named plate sets ("Home gym", "Competition") and restore them in one click
+- Shareable deep links — `?kg=150&bar=womens&kgp=25,20,15` loads that exact weight, bar, and inventory on arrival
+- QR code sharing — show a scannable code for the current configuration to a training partner
 
 ---
 
@@ -35,6 +37,8 @@ src/
     InfoPanel.tsx         # Achievable weight, exact value, round-down/up toggle, breakdown
     BoundsTrack.tsx       # Visual range track showing where exact falls between bounds
     InventoryToggles.tsx  # Collapsible per-side plate enable/disable
+    InventoryPresets.tsx  # Save / apply / delete named plate sets (localStorage)
+    QrShare.tsx           # QR code of the current deep-link URL
   test/
     conversion.test.ts
     loading.test.ts
@@ -45,6 +49,8 @@ src/
     BoundsTrack.test.tsx
     InfoPanel.test.tsx
     InventoryToggles.test.tsx
+    InventoryPresets.test.tsx
+    QrShare.test.tsx
     App.test.tsx
   App.tsx
   main.tsx
@@ -105,4 +111,5 @@ npm run preview
 - [React 19](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
 - [Vite](https://vite.dev) — build tool
 - [Tailwind CSS v3](https://tailwindcss.com) — styling
+- [qrcode](https://github.com/soldair/node-qrcode) — QR generation for share links
 - [Vitest](https://vitest.dev) + [React Testing Library](https://testing-library.com) — tests

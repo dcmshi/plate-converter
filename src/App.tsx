@@ -8,6 +8,7 @@ import WeightInput from './components/WeightInput';
 import InfoPanel from './components/InfoPanel';
 import Sleeve from './components/Sleeve';
 import InventoryToggles from './components/InventoryToggles';
+import QrShare from './components/QrShare';
 
 const DEFAULT_KG = 100;
 
@@ -117,7 +118,8 @@ export default function App() {
   const kgActive = kgBoundSide === 'down' ? kgBounds.down : kgBounds.up;
   const lbActive = lbBoundSide === 'down' ? lbBounds.down : lbBounds.up;
 
-  useEffect(() => {
+  // Query string for the address bar and the QR share link
+  const shareQuery = useMemo(() => {
     const params = new URLSearchParams();
     const kgNum = parseFloat(kgInput);
     if (!isNaN(kgNum)) params.set('kg', kgInput);
@@ -125,9 +127,12 @@ export default function App() {
     // Inventory params omitted when all plates are enabled (the default)
     if (kgEnabled.size !== ALL_KG_WEIGHTS.length) params.set('kgp', serializePlateList(kgEnabled));
     if (lbEnabled.size !== ALL_LB_WEIGHTS.length) params.set('lbp', serializePlateList(lbEnabled));
-    const qs = params.toString();
-    window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
+    return params.toString();
   }, [kgInput, activeBar, kgEnabled, lbEnabled]);
+
+  useEffect(() => {
+    window.history.replaceState(null, '', shareQuery ? `?${shareQuery}` : window.location.pathname);
+  }, [shareQuery]);
 
   useEffect(() => {
     try {
@@ -257,6 +262,8 @@ export default function App() {
           </div>
 
         </div>
+
+        <QrShare query={shareQuery} />
 
         <p className="text-center text-xs text-zinc-700">1 kg = 2.20462 lb</p>
       </div>

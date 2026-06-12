@@ -21,6 +21,7 @@ export default function InventoryToggles({
     <div className="mt-1">
       <button
         onClick={onToggleOpen}
+        aria-expanded={open}
         className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors flex items-center gap-1"
       >
         <span>{open ? '▾' : '▸'}</span>
@@ -43,6 +44,7 @@ export default function InventoryToggles({
                   key={w}
                   onClick={() => onTogglePlate(w)}
                   aria-label={`Toggle ${label} ${unit} plate`}
+                  aria-pressed={on}
                   className={`px-2 py-1 rounded text-xs font-mono transition-colors border ${
                     on
                       ? 'bg-zinc-700 border-zinc-600 text-white'

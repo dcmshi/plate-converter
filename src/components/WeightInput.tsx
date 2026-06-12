@@ -11,7 +11,9 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
   const numVal = parseFloat(value);
   const isInvalid = value !== '' && (isNaN(numVal) || numVal < 0);
 
-  const max = unit === 'kg' ? 500 : 1100;
+  // 1102.5 = 500 kg (the kg max) converted and rounded up to the lb arrow step,
+  // so a kg-derived value can never exceed the lb field's own max
+  const max = unit === 'kg' ? 500 : 1102.5;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const raw = e.target.value;

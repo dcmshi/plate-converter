@@ -162,4 +162,20 @@ describe('getBounds — edge cases', () => {
     const upPlates = Object.fromEntries(result.up.plates.map((p) => [p.weight, p.count]));
     expect(upPlates[2.5]).toBe(1);
   });
+
+  it('up-bound falls back to down + covering plate when greedy misses the target', () => {
+    // Sparse inventory [25, 10], 114 kg with 20 kg bar → 47 per side
+    // down: 25 + 2×10 = 45, remainder 2 → covering plate 10 → up target 55
+    // greedy(55) = 2×25 = 50 with remainder 5 (misses), so up must be built
+    // directly as down + covering plate: 25 + 3×10 = 55 → 130 kg total
+    const result = getBounds(114, 20, [25, 10]);
+    expect(result.isExact).toBe(false);
+    expect(result.down.achievable).toBe(110);
+    expect(result.up.achievable).toBe(130);
+    expect(result.up.perSide).toBe(55);
+    expect(result.up.remainder).toBe(0);
+    const upPlates = Object.fromEntries(result.up.plates.map((p) => [p.weight, p.count]));
+    expect(upPlates[25]).toBe(1);
+    expect(upPlates[10]).toBe(3);
+  });
 });

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatKg, formatLb, formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
@@ -14,6 +14,9 @@ interface InfoPanelProps {
 
 export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, label }: InfoPanelProps) {
   const [copied, setCopied] = useState(false);
+  const copyTimerRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(copyTimerRef.current), []);
 
   const active = activeSide === 'down' ? bounds.down : bounds.up;
   const achievable = active.achievable;
@@ -23,7 +26,8 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
     const text = `${fmtAchievable} ${unit} — ${active.plates.map((p) => `${p.count}×${p.weight}${unit}`).join(' + ')} per side`;
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      window.clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = window.setTimeout(() => setCopied(false), 1500);
     }).catch(() => {});
   }
 

@@ -11,6 +11,11 @@ import InventoryToggles from './components/InventoryToggles';
 
 const DEFAULT_KG = 100;
 
+/** kg → lb rounded to 2 decimals, as the string shown in the lb input. */
+function kgToLbDisplay(kg: number): string {
+  return String(Math.round(kgToLb(kg) * 100) / 100);
+}
+
 function parseUrlParams(search = window.location.search): { kg: number; bar: BarType } {
   const params = new URLSearchParams(search);
   const kgStr = params.get('kg');
@@ -23,7 +28,7 @@ function parseUrlParams(search = window.location.search): { kg: number; bar: Bar
 export default function App() {
   const [{ kg: initialKg, bar: initialBar }] = useState(parseUrlParams);
   const [kgInput, setKgInput] = useState(String(initialKg));
-  const [lbInput, setLbInput] = useState(String(Math.round(kgToLb(initialKg) * 100) / 100));
+  const [lbInput, setLbInput] = useState(kgToLbDisplay(initialKg));
   const [activeBar, setActiveBar] = useState<BarType>(initialBar);
   const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('up');
   const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('up');
@@ -84,7 +89,7 @@ export default function App() {
     setKgInput(val);
     const kg = parseFloat(val);
     if (!isNaN(kg) && kg >= 0) {
-      setLbInput(String(Math.round(kgToLb(kg) * 100) / 100));
+      setLbInput(kgToLbDisplay(kg));
     }
     resetBoundSides();
   }
@@ -151,9 +156,7 @@ export default function App() {
               onSelectSide={setKgBoundSide}
               label="KGS — Eleiko"
             />
-            <div className="overflow-x-auto">
-              <Sleeve plates={kgActive.plates} variant="eleiko" />
-            </div>
+            <Sleeve plates={kgActive.plates} variant="eleiko" />
             <InventoryToggles
               plates={KG_PLATES.map((p) => p.weight)}
               enabled={kgEnabled}
@@ -172,9 +175,7 @@ export default function App() {
               onSelectSide={setLbBoundSide}
               label="LBS — Iron"
             />
-            <div className="overflow-x-auto">
-              <Sleeve plates={lbActive.plates} variant="iron" />
-            </div>
+            <Sleeve plates={lbActive.plates} variant="iron" />
             <InventoryToggles
               plates={LB_PLATES.map((p) => p.weight)}
               enabled={lbEnabled}

@@ -55,11 +55,12 @@ describe('WeightInput', () => {
     expect(onChange).toHaveBeenCalledWith('500');
   });
 
-  it('clamps values over the lb max (1100) to "1100"', () => {
+  it('clamps values over the lb max (1102.5) to "1102.5"', () => {
+    // lb max is 1102.5 so the kg max (500 kg = 1102.31 lb) stays in range when synced
     const onChange = vi.fn();
     render(<WeightInput value="0" unit="lb" onChange={onChange} label="Pounds" />);
     fireEvent.change(screen.getByRole('spinbutton'), { target: { value: '99999' } });
-    expect(onChange).toHaveBeenCalledWith('1100');
+    expect(onChange).toHaveBeenCalledWith('1102.5');
   });
 
   it('shows a red border when the value prop is negative', () => {

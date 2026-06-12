@@ -85,7 +85,7 @@ describe('InfoPanel — non-exact match', () => {
 });
 
 describe('InfoPanel — copy button', () => {
-  it('calls clipboard.writeText with the formatted plate configuration', () => {
+  it('calls clipboard.writeText with the formatted plate configuration', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.assign(navigator, { clipboard: { writeText } });
 
@@ -95,6 +95,8 @@ describe('InfoPanel — copy button', () => {
 
     fireEvent.click(screen.getByLabelText('Copy plate configuration'));
     expect(writeText).toHaveBeenCalledWith('100 kg — 1×25kg + 1×15kg per side');
+    // Await the ✓ state so the promise's setState lands inside the test (avoids act() warning)
+    expect(await screen.findByText('✓')).toBeInTheDocument();
   });
 
   it('does not show ✓ and does not crash when clipboard write fails', async () => {

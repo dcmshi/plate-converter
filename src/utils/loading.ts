@@ -86,10 +86,30 @@ export function getBounds(
   if (downResult.remainder > FLOAT_EPSILON && smallestPlate > 0) {
     for (let i = sorted.length - 1; i >= 0; i--) {
       if (sorted[i] >= downResult.remainder - FLOAT_EPSILON) {
-        const upPerSide = downResult.perSide + sorted[i];
+        const coveringPlate = sorted[i];
+        const upPerSide = downResult.perSide + coveringPlate;
         const candidate = greedyLoad(upPerSide, inventory);
-        candidate.achievable = barWeight + candidate.perSide * 2;
-        upResult = candidate;
+        if (candidate.remainder <= FLOAT_EPSILON) {
+          // Greedy hit the target exactly — preferred, as it may consolidate plates
+          candidate.achievable = barWeight + candidate.perSide * 2;
+          upResult = candidate;
+        } else {
+          // Greedy missed (possible with sparse inventories, e.g. [25, 10] only) —
+          // construct directly: the down loadout plus one covering plate is always achievable
+          const plates = downResult.plates.map((p) => ({ ...p }));
+          const existing = plates.find((p) => p.weight === coveringPlate);
+          if (existing) existing.count += 1;
+          else {
+            plates.push({ weight: coveringPlate, count: 1 });
+            plates.sort((a, b) => b.weight - a.weight);
+          }
+          upResult = {
+            plates,
+            achievable: barWeight + upPerSide * 2,
+            perSide: upPerSide,
+            remainder: 0,
+          };
+        }
         break;
       }
     }

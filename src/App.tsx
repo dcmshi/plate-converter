@@ -11,33 +11,79 @@ import InventoryToggles from './components/InventoryToggles';
 
 const DEFAULT_KG = 100;
 
+const KG_INVENTORY_KEY = 'plate-converter:inventory:kg';
+const LB_INVENTORY_KEY = 'plate-converter:inventory:lb';
+
+const ALL_KG_WEIGHTS = KG_PLATES.map((p) => p.weight);
+const ALL_LB_WEIGHTS = LB_PLATES.map((p) => p.weight);
+
 /** kg → lb rounded to 2 decimals, as the string shown in the lb input. */
 function kgToLbDisplay(kg: number): string {
   return String(Math.round(kgToLb(kg) * 100) / 100);
 }
 
-function parseUrlParams(search = window.location.search): { kg: number; bar: BarType } {
+/**
+ * Parse a comma-separated enabled-plate list from a URL param.
+ * null → param absent; '' → explicitly all disabled; otherwise keep known
+ * weights, falling back to null if nothing valid remains.
+ */
+function parsePlateList(raw: string | null, known: number[]): Set<number> | null {
+  if (raw === null) return null;
+  if (raw === '') return new Set();
+  const weights = raw.split(',').map(Number).filter((w) => known.includes(w));
+  return weights.length > 0 ? new Set(weights) : null;
+}
+
+function serializePlateList(enabled: Set<number>): string {
+  return [...enabled].sort((a, b) => b - a).join(',');
+}
+
+/** Read a persisted inventory from localStorage; null if absent or unusable. */
+function loadStoredInventory(key: string, known: number[]): Set<number> | null {
+  try {
+    const raw = window.localStorage.getItem(key);
+    if (raw === null) return null;
+    const arr: unknown = JSON.parse(raw);
+    if (!Array.isArray(arr)) return null;
+    return new Set(arr.filter((w): w is number => typeof w === 'number' && known.includes(w)));
+  } catch {
+    return null;
+  }
+}
+
+interface UrlParams {
+  kg: number;
+  bar: BarType;
+  kgPlates: Set<number> | null;
+  lbPlates: Set<number> | null;
+}
+
+function parseUrlParams(search = window.location.search): UrlParams {
   const params = new URLSearchParams(search);
   const kgStr = params.get('kg');
   const n = kgStr !== null ? parseFloat(kgStr) : NaN;
   const kg = !isNaN(n) && n >= 0 && n <= 500 ? n : DEFAULT_KG;
   const bar: BarType = params.get('bar') === 'womens' ? 'womens' : 'mens';
-  return { kg, bar };
+  const kgPlates = parsePlateList(params.get('kgp'), ALL_KG_WEIGHTS);
+  const lbPlates = parsePlateList(params.get('lbp'), ALL_LB_WEIGHTS);
+  return { kg, bar, kgPlates, lbPlates };
 }
 
 export default function App() {
-  const [{ kg: initialKg, bar: initialBar }] = useState(parseUrlParams);
+  const [{ kg: initialKg, bar: initialBar, kgPlates: urlKgPlates, lbPlates: urlLbPlates }] =
+    useState(parseUrlParams);
   const [kgInput, setKgInput] = useState(String(initialKg));
   const [lbInput, setLbInput] = useState(kgToLbDisplay(initialKg));
   const [activeBar, setActiveBar] = useState<BarType>(initialBar);
   const [kgBoundSide, setKgBoundSide] = useState<'down' | 'up'>('up');
   const [lbBoundSide, setLbBoundSide] = useState<'down' | 'up'>('up');
 
+  // Inventory precedence: URL param > localStorage > all plates enabled
   const [kgEnabled, setKgEnabled] = useState<Set<number>>(
-    new Set(KG_PLATES.map((p) => p.weight)),
+    () => urlKgPlates ?? loadStoredInventory(KG_INVENTORY_KEY, ALL_KG_WEIGHTS) ?? new Set(ALL_KG_WEIGHTS),
   );
   const [lbEnabled, setLbEnabled] = useState<Set<number>>(
-    new Set(LB_PLATES.map((p) => p.weight)),
+    () => urlLbPlates ?? loadStoredInventory(LB_INVENTORY_KEY, ALL_LB_WEIGHTS) ?? new Set(ALL_LB_WEIGHTS),
   );
 
   const [kgTogglesOpen, setKgTogglesOpen] = useState(false);
@@ -76,9 +122,21 @@ export default function App() {
     const kgNum = parseFloat(kgInput);
     if (!isNaN(kgNum)) params.set('kg', kgInput);
     if (activeBar !== 'mens') params.set('bar', activeBar);
+    // Inventory params omitted when all plates are enabled (the default)
+    if (kgEnabled.size !== ALL_KG_WEIGHTS.length) params.set('kgp', serializePlateList(kgEnabled));
+    if (lbEnabled.size !== ALL_LB_WEIGHTS.length) params.set('lbp', serializePlateList(lbEnabled));
     const qs = params.toString();
     window.history.replaceState(null, '', qs ? `?${qs}` : window.location.pathname);
-  }, [kgInput, activeBar]);
+  }, [kgInput, activeBar, kgEnabled, lbEnabled]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(KG_INVENTORY_KEY, JSON.stringify([...kgEnabled]));
+      window.localStorage.setItem(LB_INVENTORY_KEY, JSON.stringify([...lbEnabled]));
+    } catch {
+      // localStorage unavailable (private mode, quota) — persistence is best-effort
+    }
+  }, [kgEnabled, lbEnabled]);
 
   function resetBoundSides() {
     setKgBoundSide('up');

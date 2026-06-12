@@ -4,6 +4,7 @@ import App from '../App';
 
 afterEach(() => {
   window.history.pushState({}, '', '/');
+  window.localStorage.clear();
 });
 
 describe('App — URL params', () => {
@@ -128,15 +129,70 @@ describe('App — inventory toggle', () => {
     expect(screen.getByText('▲ Round Up')).toHaveClass('bg-zinc-600');
   });
 
-  it('does not change the URL when a plate is toggled', () => {
+  it('encodes the inventory in the URL when a plate is toggled', () => {
     render(<App />);
-    const urlAfterRender = window.location.search;
+    expect(window.location.search).not.toContain('kgp');
 
     const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
     fireEvent.click(inventoryButtons[0]);
     fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
 
-    expect(window.location.search).toBe(urlAfterRender);
+    const kgp = new URLSearchParams(window.location.search).get('kgp');
+    expect(kgp).toBe('20,15,10,5,2.5,2,1.5,1,0.5');
+  });
+
+  it('removes the inventory URL param when the plate is re-enabled', () => {
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
+    expect(window.location.search).not.toContain('kgp');
+  });
+});
+
+describe('App — inventory persistence', () => {
+  it('?kgp=25,20 enables only those plates', () => {
+    window.history.pushState({}, '', '?kgp=25,20');
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Toggle 20 kg plate' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Toggle 15 kg plate' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  it('?kgp=banana (invalid) falls back to all plates enabled', () => {
+    window.history.pushState({}, '', '?kgp=banana');
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    expect(screen.getByRole('button', { name: 'Toggle 15 kg plate' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('restores a toggled inventory from localStorage on remount', () => {
+    const { unmount } = render(<App />);
+    let inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
+    unmount();
+
+    window.history.pushState({}, '', '/');
+    render(<App />);
+    inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByRole('button', { name: 'Toggle 20 kg plate' })).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('URL inventory param overrides localStorage', () => {
+    window.localStorage.setItem('plate-converter:inventory:kg', JSON.stringify([10, 5]));
+    window.history.pushState({}, '', '?kgp=25,20');
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByRole('button', { name: 'Toggle 10 kg plate' })).toHaveAttribute('aria-pressed', 'false');
   });
 });
 

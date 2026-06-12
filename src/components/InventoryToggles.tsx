@@ -1,4 +1,5 @@
 import { type PlateUnit } from '../utils/constants';
+import InventoryPresets from './InventoryPresets';
 
 interface InventoryTogglesProps {
   plates: number[];
@@ -7,6 +8,7 @@ interface InventoryTogglesProps {
   open: boolean;
   onToggleOpen: () => void;
   onTogglePlate: (weight: number) => void;
+  onApplyPreset: (weights: number[]) => void;
 }
 
 export default function InventoryToggles({
@@ -16,6 +18,7 @@ export default function InventoryToggles({
   open,
   onToggleOpen,
   onTogglePlate,
+  onApplyPreset,
 }: InventoryTogglesProps) {
   return (
     <div className="mt-1">
@@ -56,6 +59,7 @@ export default function InventoryToggles({
               );
             })}
           </div>
+          <InventoryPresets unit={unit} enabled={enabled} onApply={onApplyPreset} />
         </div>
       )}
     </div>

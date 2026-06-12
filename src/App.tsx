@@ -176,6 +176,16 @@ export default function App() {
     resetBoundSides();
   }
 
+  function applyKgPreset(weights: number[]) {
+    setKgEnabled(new Set(weights.filter((w) => ALL_KG_WEIGHTS.includes(w))));
+    resetBoundSides();
+  }
+
+  function applyLbPreset(weights: number[]) {
+    setLbEnabled(new Set(weights.filter((w) => ALL_LB_WEIGHTS.includes(w))));
+    resetBoundSides();
+  }
+
   function toggleLbPlate(weight: number) {
     setLbEnabled((prev) => {
       const next = new Set(prev);
@@ -222,6 +232,7 @@ export default function App() {
               open={kgTogglesOpen}
               onToggleOpen={() => setKgTogglesOpen((v) => !v)}
               onTogglePlate={toggleKgPlate}
+              onApplyPreset={applyKgPreset}
             />
           </div>
 
@@ -241,6 +252,7 @@ export default function App() {
               open={lbTogglesOpen}
               onToggleOpen={() => setLbTogglesOpen((v) => !v)}
               onTogglePlate={toggleLbPlate}
+              onApplyPreset={applyLbPreset}
             />
           </div>
 

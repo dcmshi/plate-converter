@@ -196,6 +196,24 @@ describe('App — inventory persistence', () => {
   });
 });
 
+describe('App — presets', () => {
+  it('applying a saved preset updates the plate configuration and the URL', () => {
+    window.localStorage.setItem(
+      'plate-converter:presets:kg',
+      JSON.stringify({ 'No bumpers': [20, 10, 5, 2.5, 2, 1.5, 1, 0.5] }),
+    );
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    fireEvent.click(screen.getByRole('button', { name: 'Apply preset No bumpers' }));
+
+    // 40 kg/side without the 25 → 2×20
+    expect(screen.getByText('2×20 per side')).toBeInTheDocument();
+    const kgp = new URLSearchParams(window.location.search).get('kgp');
+    expect(kgp).toBe('20,10,5,2.5,2,1.5,1,0.5');
+  });
+});
+
 describe('App — empty input', () => {
   it('does not crash when the kg input is cleared', () => {
     render(<App />);

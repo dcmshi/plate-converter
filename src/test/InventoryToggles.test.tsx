@@ -15,6 +15,7 @@ describe('InventoryToggles', () => {
         open={false}
         onToggleOpen={() => {}}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     expect(screen.getByText('Inventory')).toBeInTheDocument();
@@ -29,6 +30,7 @@ describe('InventoryToggles', () => {
         open={false}
         onToggleOpen={() => {}}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     expect(screen.queryByText('25 kg')).not.toBeInTheDocument();
@@ -43,6 +45,7 @@ describe('InventoryToggles', () => {
         open={true}
         onToggleOpen={() => {}}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     expect(screen.getByText('25 kg')).toBeInTheDocument();
@@ -59,6 +62,7 @@ describe('InventoryToggles', () => {
         open={false}
         onToggleOpen={onToggleOpen}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     fireEvent.click(screen.getByText('Inventory'));
@@ -75,6 +79,7 @@ describe('InventoryToggles', () => {
         open={true}
         onToggleOpen={() => {}}
         onTogglePlate={onTogglePlate}
+        onApplyPreset={() => {}}
       />,
     );
     fireEvent.click(screen.getByText('25 kg'));
@@ -90,6 +95,7 @@ describe('InventoryToggles', () => {
         open={true}
         onToggleOpen={() => {}}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     expect(screen.getByText('All plates disabled — only bar weight will load.')).toBeInTheDocument();
@@ -105,6 +111,7 @@ describe('InventoryToggles', () => {
         open={true}
         onToggleOpen={() => {}}
         onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
       />,
     );
     const disabledBtn = screen.getByText('15 kg');

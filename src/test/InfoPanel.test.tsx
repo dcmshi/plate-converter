@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import InfoPanel from '../components/InfoPanel';
 import { type BoundsResult } from '../utils/loading';
 
@@ -130,5 +130,39 @@ describe('InfoPanel — copy button', () => {
 
     fireEvent.click(screen.getByLabelText('Copy plate configuration'));
     expect(await screen.findByTitle('Copied!')).toBeInTheDocument();
+  });
+
+  it('confirms the copy in words, not just a glyph swap', async () => {
+    const writeText = vi.fn().mockResolvedValue(undefined);
+    Object.assign(navigator, { clipboard: { writeText } });
+
+    render(
+      <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+    );
+    expect(screen.queryByText('Copied')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByLabelText('Copy plate configuration'));
+    const status = await screen.findByRole('status');
+    expect(status).toHaveTextContent('Copied');
+  });
+
+  it('clears the confirmation after 1.5s', async () => {
+    vi.useFakeTimers();
+    try {
+      const writeText = vi.fn().mockResolvedValue(undefined);
+      Object.assign(navigator, { clipboard: { writeText } });
+
+      render(
+        <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+      );
+      fireEvent.click(screen.getByLabelText('Copy plate configuration'));
+      await act(async () => {});
+      expect(screen.getByText('Copied')).toBeInTheDocument();
+
+      act(() => { vi.advanceTimersByTime(1500); });
+      expect(screen.queryByText('Copied')).not.toBeInTheDocument();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

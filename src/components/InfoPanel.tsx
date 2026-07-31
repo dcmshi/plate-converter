@@ -105,6 +105,11 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
           >
             {copied ? <CheckIcon /> : <CopyIcon />}
           </button>
+          {copied && (
+            <span role="status" className="text-xs text-accent-success">
+              Copied
+            </span>
+          )}
         </div>
       )}
     </div>

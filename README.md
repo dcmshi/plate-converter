@@ -10,7 +10,7 @@ Enter a target weight in either unit and instantly see the exact plate configura
 
 - Synced KGS / LBS inputs — editing one updates the other; arrow keys step ±0.5 kg / ±2.5 lb
 - Eleiko color-coded bumper and change plates (IWF standard)
-- Commercial iron plates (Black / Dark Grey) with weight labels
+- Commercial iron plates with weight labels, standing on a shelf so the loaded bar reads as one object
 - Men's (20 kg / 45 lb) and Women's (15 kg / 33 lb) bar selector — shared across both panels
 - Plates rendered individually on the bar sleeve (no count abbreviations)
 - Round Down / Round Up toggle with a visual bounds track for non-exact weights
@@ -18,6 +18,8 @@ Enter a target weight in either unit and instantly see the exact plate configura
 - Inventory presets — save named plate sets ("Home gym", "Competition") and restore them in one click
 - Shareable deep links — `?kg=150&bar=womens&kgp=25,20,15` loads that exact weight, bar, and inventory on arrival
 - QR code sharing — show a scannable code for the current configuration to a training partner
+- Phone-friendly — artwork scales down on small screens, a decimal keypad opens on the weight fields, and a compact bar keeps both totals on screen while scrolling
+- Accessible — labelled inputs, 44px touch targets, visible keyboard focus rings, 4.5:1 text contrast, and state signalled by shape as well as colour
 
 ---
 
@@ -26,7 +28,7 @@ Enter a target weight in either unit and instantly see the exact plate configura
 ```
 src/
   utils/
-    constants.ts          # Plate inventories, bar weights, colors, dimensions
+    constants.ts          # Plate inventories, bar weights, kg plate colors, dimensions
     conversion.ts         # kg <-> lb math, rounding helpers
     loading.ts            # Greedy plate algorithm + bounds (round-down / round-up)
   components/
@@ -39,6 +41,7 @@ src/
     InventoryToggles.tsx  # Collapsible per-side plate enable/disable
     InventoryPresets.tsx  # Save / apply / delete named plate sets (localStorage)
     QrShare.tsx           # QR code of the current deep-link URL
+    icons.tsx             # Inline SVG icon set (chevron, caret, copy, check, close)
   test/
     conversion.test.ts
     loading.test.ts
@@ -51,11 +54,17 @@ src/
     InventoryToggles.test.tsx
     InventoryPresets.test.tsx
     QrShare.test.tsx
+    icons.test.tsx
+    document.test.ts      # index.html meta tags + page background
     App.test.tsx
   App.tsx
   main.tsx
-  index.css
+  index.css               # Tailwind entry, page background, --plate-scale, .focus-ring
 ```
+
+Plate, bar and accent colours live as Tailwind tokens in `tailwind.config.js`
+(`bar-*`, `plate-*`, `accent-*`); the Eleiko kg plate colours stay in
+`constants.ts` because they follow the IWF colour standard.
 
 ---
 

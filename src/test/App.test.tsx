@@ -91,6 +91,47 @@ describe('App — focus styles', () => {
   });
 });
 
+describe('App — compact mobile header', () => {
+  function scrollTo(y: number) {
+    Object.defineProperty(window, 'scrollY', { value: y, configurable: true });
+    fireEvent.scroll(window);
+  }
+
+  afterEach(() => {
+    scrollTo(0);
+  });
+
+  it('is not rendered at the top of the page', () => {
+    render(<App />);
+    expect(screen.queryByLabelText('Loaded totals')).not.toBeInTheDocument();
+  });
+
+  it('shows both loaded totals once the inputs scroll away', () => {
+    render(<App />);
+    scrollTo(200);
+
+    const bar = screen.getByLabelText('Loaded totals');
+    expect(bar).toHaveTextContent('100 kg');
+    // 220.46 lb rounds up to 225 lb on a 45 lb bar with iron plates
+    expect(bar).toHaveTextContent('225 lb');
+  });
+
+  it('is limited to small screens', () => {
+    render(<App />);
+    scrollTo(200);
+    expect(screen.getByLabelText('Loaded totals')).toHaveClass('md:hidden');
+  });
+
+  it('disappears when scrolled back to the top', () => {
+    render(<App />);
+    scrollTo(200);
+    expect(screen.getByLabelText('Loaded totals')).toBeInTheDocument();
+
+    scrollTo(0);
+    expect(screen.queryByLabelText('Loaded totals')).not.toBeInTheDocument();
+  });
+});
+
 describe('App — card layout', () => {
   it('lets the plate visualization absorb and centre spare card height', () => {
     const { container } = render(<App />);

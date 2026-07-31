@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { kgToLb, lbToKg, roundToNearestHalfKg } from './utils/conversion';
+import { formatKg, formatLb, kgToLb, lbToKg, roundToNearestHalfKg } from './utils/conversion';
 import { getBounds } from './utils/loading';
 import { KG_PLATES, LB_PLATES, BAR_WEIGHTS, type BarType } from './utils/constants';
 
@@ -11,6 +11,9 @@ import InventoryToggles from './components/InventoryToggles';
 import QrShare from './components/QrShare';
 
 const DEFAULT_KG = 100;
+
+/** Scroll depth (px) past which the compact totals bar appears on small screens. */
+const COMPACT_HEADER_SCROLL_PX = 120;
 
 const KG_INVENTORY_KEY = 'plate-converter:inventory:kg';
 const LB_INVENTORY_KEY = 'plate-converter:inventory:lb';
@@ -89,6 +92,17 @@ export default function App() {
 
   const [kgTogglesOpen, setKgTogglesOpen] = useState(false);
   const [lbTogglesOpen, setLbTogglesOpen] = useState(false);
+
+  // On phones the inputs scroll out of view above the result cards, so a compact
+  // bar keeps the loaded totals on screen once the header is gone.
+  const [scrolledPastInputs, setScrolledPastInputs] = useState(false);
+  useEffect(() => {
+    function onScroll() {
+      setScrolledPastInputs(window.scrollY > COMPACT_HEADER_SCROLL_PX);
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const kgValue = parseFloat(kgInput) || 0;
   const lbValue = parseFloat(lbInput) || 0;
@@ -203,6 +217,22 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white px-4 py-8">
+      {scrolledPastInputs && (
+        <div
+          role="group"
+          aria-label="Loaded totals"
+          className="fixed inset-x-0 top-0 z-10 flex items-center justify-center gap-3 border-b border-zinc-800 bg-zinc-950/95 px-4 py-2 backdrop-blur md:hidden"
+        >
+          <span className="font-mono text-sm tabular-nums text-white">
+            {formatKg(kgActive.achievable)} kg
+          </span>
+          <span aria-hidden="true" className="text-zinc-400">·</span>
+          <span className="font-mono text-sm tabular-nums text-white">
+            {formatLb(lbActive.achievable)} lb
+          </span>
+        </div>
+      )}
+
       <div className="max-w-5xl mx-auto flex flex-col gap-8">
 
         <div className="text-center">

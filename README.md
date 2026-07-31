@@ -56,6 +56,8 @@ src/
     QrShare.test.tsx
     icons.test.tsx
     document.test.ts      # index.html meta tags + page background
+    readme.test.ts        # keeps this list in sync with src/
+    setup.ts              # jest-dom matchers
     App.test.tsx
   App.tsx
   main.tsx

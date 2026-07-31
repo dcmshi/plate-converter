@@ -229,7 +229,9 @@ export default function App() {
               onSelectSide={setKgBoundSide}
               label="KGS — Eleiko"
             />
-            <Sleeve plates={kgActive.plates} variant="eleiko" />
+            <div className="flex min-w-0 flex-1 items-center">
+              <Sleeve plates={kgActive.plates} variant="eleiko" />
+            </div>
             <InventoryToggles
               plates={KG_PLATES.map((p) => p.weight)}
               enabled={kgEnabled}
@@ -249,7 +251,9 @@ export default function App() {
               onSelectSide={setLbBoundSide}
               label="LBS — Iron"
             />
-            <Sleeve plates={lbActive.plates} variant="iron" />
+            <div className="flex min-w-0 flex-1 items-center">
+              <Sleeve plates={lbActive.plates} variant="iron" />
+            </div>
             <InventoryToggles
               plates={LB_PLATES.map((p) => p.weight)}
               enabled={lbEnabled}

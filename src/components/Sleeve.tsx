@@ -34,7 +34,7 @@ export default function Sleeve({ plates, variant }: SleeveProps) {
   const hasPlates = plates.length > 0 && plates.some((p) => p.count > 0);
 
   return (
-    <div className="overflow-x-auto py-2">
+    <div className="w-full overflow-x-auto py-2">
       <div className="inline-flex min-w-full flex-col">
         <div className="flex items-center">
           <BarStub />

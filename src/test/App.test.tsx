@@ -91,6 +91,19 @@ describe('App — focus styles', () => {
   });
 });
 
+describe('App — card layout', () => {
+  it('lets the plate visualization absorb and centre spare card height', () => {
+    const { container } = render(<App />);
+    const cards = container.querySelectorAll('div.bg-zinc-900.rounded-xl');
+    expect(cards).toHaveLength(2);
+    for (const card of cards) {
+      const sleeveSlot = card.children[1];
+      expect(sleeveSlot.className).toContain('flex-1');
+      expect(sleeveSlot.className).toContain('items-center');
+    }
+  });
+});
+
 describe('App — KG ↔ LB sync', () => {
   it('updating the kg input syncs the lb input', () => {
     render(<App />);

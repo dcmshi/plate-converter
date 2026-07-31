@@ -32,7 +32,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
       <button
         onClick={() => onSelect('down')}
         aria-label={`Select rounded-down weight: ${formatWeight(downW, unit)}`}
-        className={`text-xs font-mono tabular-nums transition-colors ${
+        className={`focus-ring rounded text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'down'
             ? 'text-white font-semibold'
             : 'text-zinc-400 hover:text-zinc-200'
@@ -52,7 +52,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
       <button
         onClick={() => onSelect('up')}
         aria-label={`Select rounded-up weight: ${formatWeight(upW, unit)}`}
-        className={`text-xs font-mono tabular-nums transition-colors ${
+        className={`focus-ring rounded text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'up'
             ? 'text-white font-semibold'
             : 'text-zinc-400 hover:text-zinc-200'

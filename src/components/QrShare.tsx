@@ -27,7 +27,7 @@ export default function QrShare({ query }: QrShareProps) {
       <button
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="min-h-11 px-2 text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
+        className="focus-ring min-h-11 px-2 rounded text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
       >
         <span>{open ? '▾' : '▸'}</span>
         <span>Share QR</span>

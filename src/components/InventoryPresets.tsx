@@ -75,14 +75,14 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
                 onClick={() => onApply(weights)}
                 aria-label={`Apply preset ${presetName}`}
                 title={weights.join(', ') + ` ${unit}`}
-                className="min-h-11 px-3 text-xs text-zinc-200 hover:bg-zinc-700 transition-colors"
+                className="focus-ring min-h-11 px-3 text-xs text-zinc-200 hover:bg-zinc-700 transition-colors"
               >
                 {presetName}
               </button>
               <button
                 onClick={() => remove(presetName)}
                 aria-label={`Delete preset ${presetName}`}
-                className="min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-400 hover:text-red-400 transition-colors border-l border-zinc-700"
+                className="focus-ring min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-400 hover:text-red-400 transition-colors border-l border-zinc-700"
               >
                 ×
               </button>
@@ -98,12 +98,12 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
           onKeyDown={(e) => { if (e.key === 'Enter') save(); }}
           placeholder="Save current as…"
           aria-label={`Preset name (${unit})`}
-          className="w-36 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-500"
+          className="focus-ring w-36 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-500"
         />
         <button
           onClick={save}
           disabled={!trimmed}
-          className="px-2 py-1 rounded text-xs font-medium transition-colors border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="focus-ring px-2 py-1 rounded text-xs font-medium transition-colors border border-zinc-700 text-zinc-300 hover:text-white hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Save
         </button>

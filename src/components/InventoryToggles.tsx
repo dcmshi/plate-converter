@@ -25,7 +25,7 @@ export default function InventoryToggles({
       <button
         onClick={onToggleOpen}
         aria-expanded={open}
-        className="min-h-11 pr-2 text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
+        className="focus-ring min-h-11 pr-2 rounded text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
       >
         <span>{open ? '▾' : '▸'}</span>
         <span>Inventory</span>
@@ -48,7 +48,7 @@ export default function InventoryToggles({
                   onClick={() => onTogglePlate(w)}
                   aria-label={`Toggle ${label} ${unit} plate`}
                   aria-pressed={on}
-                  className={`min-h-11 min-w-11 px-3 rounded text-xs font-mono transition-colors border ${
+                  className={`focus-ring min-h-11 min-w-11 px-3 rounded text-xs font-mono transition-colors border ${
                     on
                       ? 'bg-zinc-700 border-solid border-zinc-600 text-white'
                       : 'bg-zinc-900 border-dashed border-zinc-500 text-zinc-400 line-through'

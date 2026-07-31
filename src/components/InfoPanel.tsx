@@ -55,7 +55,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             <button
               onClick={() => onSelectSide('down')}
               aria-pressed={activeSide === 'down'}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors ${
                 activeSide === 'down'
                   ? 'bg-zinc-600 text-white'
                   : 'text-zinc-400 hover:text-zinc-200'
@@ -66,7 +66,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             <button
               onClick={() => onSelectSide('up')}
               aria-pressed={activeSide === 'up'}
-              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors ${
                 activeSide === 'up'
                   ? 'bg-zinc-600 text-white'
                   : 'text-zinc-400 hover:text-zinc-200'
@@ -96,7 +96,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             onClick={handleCopy}
             aria-label="Copy plate configuration"
             title={copied ? 'Copied!' : 'Copy to clipboard'}
-            className={`min-h-11 min-w-11 inline-flex items-center justify-center transition-colors text-xs flex-shrink-0 ${
+            className={`focus-ring min-h-11 min-w-11 inline-flex items-center justify-center rounded transition-colors text-xs flex-shrink-0 ${
               copied ? 'text-emerald-400' : 'text-zinc-400 hover:text-zinc-100'
             }`}
           >

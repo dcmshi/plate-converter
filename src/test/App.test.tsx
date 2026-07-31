@@ -73,6 +73,24 @@ describe('App — initial state', () => {
   });
 });
 
+describe('App — focus styles', () => {
+  it('gives every interactive control a visible focus ring', () => {
+    render(<App />);
+    // Open one inventory panel so the plate chips and preset controls render too
+    fireEvent.click(screen.getAllByRole('button', { name: /Inventory/ })[0]);
+
+    const controls = [
+      ...screen.getAllByRole('button'),
+      ...screen.getAllByRole('spinbutton'),
+      ...screen.getAllByRole('textbox'),
+    ];
+    expect(controls.length).toBeGreaterThan(10);
+    for (const control of controls) {
+      expect(control).toHaveClass('focus-ring');
+    }
+  });
+});
+
 describe('App — KG ↔ LB sync', () => {
   it('updating the kg input syncs the lb input', () => {
     render(<App />);

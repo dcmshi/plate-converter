@@ -53,7 +53,7 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
           step={unit === 'kg' ? 0.5 : 2.5}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          className={`w-32 px-3 py-2 bg-zinc-800 rounded-lg text-white text-lg font-mono tabular-nums focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none border ${
+          className={`focus-ring w-32 px-3 py-2 bg-zinc-800 rounded-lg text-white text-lg font-mono tabular-nums focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none border ${
             isInvalid
               ? 'border-red-500 focus:border-red-400'
               : 'border-zinc-700 focus:border-zinc-500'

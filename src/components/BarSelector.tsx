@@ -20,7 +20,7 @@ export default function BarSelector({ activeBar, onChange }: BarSelectorProps) {
             key={bar}
             onClick={() => onChange(bar)}
             aria-pressed={activeBar === bar}
-            className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            className={`focus-ring px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
               activeBar === bar
                 ? 'bg-zinc-600 text-white'
                 : 'text-zinc-400 hover:text-zinc-200'

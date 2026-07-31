@@ -21,6 +21,11 @@ describe('QrShare', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
+  it('gives the disclosure button a 44px minimum hit area', () => {
+    render(<QrShare query="kg=100" />);
+    expect(screen.getByRole('button', { name: /Share QR/ })).toHaveClass('min-h-11');
+  });
+
   it('shows a QR image of the deep-link URL when expanded', async () => {
     render(<QrShare query="kg=150&bar=womens" />);
     fireEvent.click(screen.getByText('Share QR'));

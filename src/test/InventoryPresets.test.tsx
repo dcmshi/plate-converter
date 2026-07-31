@@ -83,6 +83,13 @@ describe('InventoryPresets', () => {
     expect(screen.queryAllByRole('button', { name: /Apply preset/ })).toHaveLength(0);
   });
 
+  it('gives the apply and delete buttons a 44px minimum hit area', () => {
+    window.localStorage.setItem('plate-converter:presets:kg', JSON.stringify({ 'Home gym': [25, 10] }));
+    render(<InventoryPresets unit="kg" enabled={enabled} onApply={() => {}} />);
+    expect(screen.getByRole('button', { name: 'Apply preset Home gym' })).toHaveClass('min-h-11');
+    expect(screen.getByRole('button', { name: 'Delete preset Home gym' })).toHaveClass('min-h-11', 'min-w-11');
+  });
+
   it('keeps kg and lb presets separate', () => {
     window.localStorage.setItem('plate-converter:presets:kg', JSON.stringify({ 'KG set': [25] }));
     render(<InventoryPresets unit="lb" enabled={new Set([45])} onApply={() => {}} />);

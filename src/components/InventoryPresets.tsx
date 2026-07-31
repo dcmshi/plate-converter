@@ -75,14 +75,14 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
                 onClick={() => onApply(weights)}
                 aria-label={`Apply preset ${presetName}`}
                 title={weights.join(', ') + ` ${unit}`}
-                className="px-2 py-1 text-xs text-zinc-200 hover:bg-zinc-700 transition-colors"
+                className="min-h-11 px-3 text-xs text-zinc-200 hover:bg-zinc-700 transition-colors"
               >
                 {presetName}
               </button>
               <button
                 onClick={() => remove(presetName)}
                 aria-label={`Delete preset ${presetName}`}
-                className="px-1.5 py-1 text-xs text-zinc-500 hover:text-red-400 transition-colors border-l border-zinc-700"
+                className="min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-500 hover:text-red-400 transition-colors border-l border-zinc-700"
               >
                 ×
               </button>

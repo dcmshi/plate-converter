@@ -85,6 +85,13 @@ describe('InfoPanel — non-exact match', () => {
 });
 
 describe('InfoPanel — copy button', () => {
+  it('has a 44px minimum hit area', () => {
+    render(
+      <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
+    );
+    expect(screen.getByLabelText('Copy plate configuration')).toHaveClass('min-h-11', 'min-w-11');
+  });
+
   it('calls clipboard.writeText with the formatted plate configuration', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.assign(navigator, { clipboard: { writeText } });

@@ -101,6 +101,23 @@ describe('InventoryToggles', () => {
     expect(screen.getByText('All plates disabled — only bar weight will load.')).toBeInTheDocument();
   });
 
+  it('gives the disclosure and plate chips a 44px minimum hit area', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={allEnabled}
+        unit="kg"
+        open={true}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
+      />,
+    );
+    expect(screen.getByRole('button', { name: /Inventory/ })).toHaveClass('min-h-11');
+    const chip = screen.getByRole('button', { name: 'Toggle 25 kg plate' });
+    expect(chip).toHaveClass('min-h-11', 'min-w-11');
+  });
+
   it('applies line-through style for disabled plates', () => {
     const partialEnabled = new Set([25, 20]); // 15, 10, 5, 2.5 disabled
     render(

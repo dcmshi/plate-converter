@@ -96,7 +96,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             onClick={handleCopy}
             aria-label="Copy plate configuration"
             title={copied ? 'Copied!' : 'Copy to clipboard'}
-            className={`transition-colors text-xs flex-shrink-0 ${
+            className={`min-h-11 min-w-11 inline-flex items-center justify-center transition-colors text-xs flex-shrink-0 ${
               copied ? 'text-emerald-400' : 'text-zinc-400 hover:text-zinc-100'
             }`}
           >

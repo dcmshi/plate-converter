@@ -1,6 +1,7 @@
 import { formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
+import { CheckIcon } from './icons';
 
 interface BoundsTrackProps {
   bounds: BoundsResult;
@@ -13,7 +14,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
   if (bounds.isExact) {
     return (
       <div className="flex items-center gap-2 text-xs text-emerald-400">
-        <span className="text-emerald-500">✓</span>
+        <CheckIcon className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500" />
         <span>Exact match — {formatWeight(bounds.exact, unit)}</span>
       </div>
     );

@@ -139,8 +139,8 @@ describe('App — inventory toggle', () => {
   it('resets bound side to up after toggling a plate', () => {
     render(<App />);
     // 100 kg → LB side is non-exact (220.46 lb → 87.73 lb/side) — pill is visible
-    fireEvent.click(screen.getByText('▼ Round Down'));
-    expect(screen.getByText('▼ Round Down')).toHaveClass('bg-zinc-600');
+    fireEvent.click(screen.getByRole('button', { name: 'Round Down' }));
+    expect(screen.getByRole('button', { name: 'Round Down' })).toHaveClass('bg-zinc-600');
 
     // Toggle a LB plate (second Inventory button = lb side)
     const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
@@ -148,8 +148,8 @@ describe('App — inventory toggle', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Toggle 45 lb plate' }));
 
     // Bound side should have reset to 'up'
-    expect(screen.getByText('▼ Round Down')).not.toHaveClass('bg-zinc-600');
-    expect(screen.getByText('▲ Round Up')).toHaveClass('bg-zinc-600');
+    expect(screen.getByRole('button', { name: 'Round Down' })).not.toHaveClass('bg-zinc-600');
+    expect(screen.getByRole('button', { name: 'Round Up' })).toHaveClass('bg-zinc-600');
   });
 
   it('encodes the inventory in the URL when a plate is toggled', () => {

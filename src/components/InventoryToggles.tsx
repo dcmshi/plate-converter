@@ -1,5 +1,6 @@
 import { type PlateUnit } from '../utils/constants';
 import InventoryPresets from './InventoryPresets';
+import { ChevronIcon } from './icons';
 
 interface InventoryTogglesProps {
   plates: number[];
@@ -27,7 +28,7 @@ export default function InventoryToggles({
         aria-expanded={open}
         className="focus-ring min-h-11 pr-2 rounded text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
       >
-        <span>{open ? '▾' : '▸'}</span>
+        <ChevronIcon open={open} />
         <span>Inventory</span>
       </button>
 

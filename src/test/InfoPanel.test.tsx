@@ -29,8 +29,8 @@ describe('InfoPanel — exact match', () => {
     render(
       <InfoPanel bounds={exactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
     );
-    expect(screen.queryByText('▼ Round Down')).not.toBeInTheDocument();
-    expect(screen.queryByText('▲ Round Up')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Round Down' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Round Up' })).not.toBeInTheDocument();
   });
 });
 
@@ -39,16 +39,16 @@ describe('InfoPanel — non-exact match', () => {
     render(
       <InfoPanel bounds={nonExactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
     );
-    expect(screen.getByText('▼ Round Down')).toBeInTheDocument();
-    expect(screen.getByText('▲ Round Up')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Round Down' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Round Up' })).toBeInTheDocument();
   });
 
   it('highlights the active side button', () => {
     render(
       <InfoPanel bounds={nonExactBounds} unit="kg" activeSide="down" onSelectSide={() => {}} label="KGS" />,
     );
-    expect(screen.getByText('▼ Round Down')).toHaveClass('bg-zinc-600');
-    expect(screen.getByText('▲ Round Up')).not.toHaveClass('bg-zinc-600');
+    expect(screen.getByRole('button', { name: 'Round Down' })).toHaveClass('bg-zinc-600');
+    expect(screen.getByRole('button', { name: 'Round Up' })).not.toHaveClass('bg-zinc-600');
   });
 
   it('calls onSelectSide("up") when Round Up is clicked', () => {
@@ -56,7 +56,7 @@ describe('InfoPanel — non-exact match', () => {
     render(
       <InfoPanel bounds={nonExactBounds} unit="kg" activeSide="down" onSelectSide={onSelectSide} label="KGS" />,
     );
-    fireEvent.click(screen.getByText('▲ Round Up'));
+    fireEvent.click(screen.getByRole('button', { name: 'Round Up' }));
     expect(onSelectSide).toHaveBeenCalledWith('up');
   });
 
@@ -65,7 +65,7 @@ describe('InfoPanel — non-exact match', () => {
     render(
       <InfoPanel bounds={nonExactBounds} unit="kg" activeSide="up" onSelectSide={onSelectSide} label="KGS" />,
     );
-    fireEvent.click(screen.getByText('▼ Round Down'));
+    fireEvent.click(screen.getByRole('button', { name: 'Round Down' }));
     expect(onSelectSide).toHaveBeenCalledWith('down');
   });
 
@@ -102,11 +102,11 @@ describe('InfoPanel — copy button', () => {
 
     fireEvent.click(screen.getByLabelText('Copy plate configuration'));
     expect(writeText).toHaveBeenCalledWith('100 kg — 1×25kg + 1×15kg per side');
-    // Await the ✓ state so the promise's setState lands inside the test (avoids act() warning)
-    expect(await screen.findByText('✓')).toBeInTheDocument();
+    // Await the copied state so the promise's setState lands inside the test (avoids act() warning)
+    expect(await screen.findByTitle('Copied!')).toBeInTheDocument();
   });
 
-  it('does not show ✓ and does not crash when clipboard write fails', async () => {
+  it('stays in the uncopied state and does not crash when clipboard write fails', async () => {
     const writeText = vi.fn().mockRejectedValue(new Error('denied'));
     Object.assign(navigator, { clipboard: { writeText } });
 
@@ -117,11 +117,10 @@ describe('InfoPanel — copy button', () => {
     fireEvent.click(screen.getByLabelText('Copy plate configuration'));
     await new Promise((r) => setTimeout(r, 0));
 
-    // Copy button should still show ⎘, not ✓, after a failed write
-    expect(screen.getByLabelText('Copy plate configuration')).toHaveTextContent('⎘');
+    expect(screen.getByLabelText('Copy plate configuration')).toHaveAttribute('title', 'Copy to clipboard');
   });
 
-  it('shows ✓ after a successful copy', async () => {
+  it('confirms a successful copy', async () => {
     const writeText = vi.fn().mockResolvedValue(undefined);
     Object.assign(navigator, { clipboard: { writeText } });
 
@@ -130,6 +129,6 @@ describe('InfoPanel — copy button', () => {
     );
 
     fireEvent.click(screen.getByLabelText('Copy plate configuration'));
-    expect(await screen.findByText('✓')).toBeInTheDocument();
+    expect(await screen.findByTitle('Copied!')).toBeInTheDocument();
   });
 });

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
+import { ChevronIcon } from './icons';
 
 interface QrShareProps {
   /** Current query string (no leading "?"); the QR encodes the full deep-link URL. */
@@ -29,7 +30,7 @@ export default function QrShare({ query }: QrShareProps) {
         aria-expanded={open}
         className="focus-ring min-h-11 px-2 rounded text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
       >
-        <span>{open ? '▾' : '▸'}</span>
+        <ChevronIcon open={open} />
         <span>Share QR</span>
       </button>
 

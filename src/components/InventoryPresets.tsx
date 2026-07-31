@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { type PlateUnit } from '../utils/constants';
+import { CloseIcon } from './icons';
 
 interface InventoryPresetsProps {
   unit: PlateUnit;
@@ -84,7 +85,7 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
                 aria-label={`Delete preset ${presetName}`}
                 className="focus-ring min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-400 hover:text-red-400 transition-colors border-l border-zinc-700"
               >
-                ×
+                <CloseIcon className="h-3 w-3" />
               </button>
             </span>
           ))}

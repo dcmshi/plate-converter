@@ -3,6 +3,7 @@ import { formatKg, formatLb, formatWeight } from '../utils/conversion';
 import { type BoundsResult } from '../utils/loading';
 import { type PlateUnit } from '../utils/constants';
 import BoundsTrack from './BoundsTrack';
+import { CaretDownIcon, CaretUpIcon, CheckIcon, CopyIcon } from './icons';
 
 interface InfoPanelProps {
   bounds: BoundsResult;
@@ -55,24 +56,26 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             <button
               onClick={() => onSelectSide('down')}
               aria-pressed={activeSide === 'down'}
-              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors inline-flex items-center gap-1 ${
                 activeSide === 'down'
                   ? 'bg-zinc-600 text-white'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              ▼ Round Down
+              <CaretDownIcon className="h-3 w-3 flex-shrink-0" />
+              Round Down
             </button>
             <button
               onClick={() => onSelectSide('up')}
               aria-pressed={activeSide === 'up'}
-              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`focus-ring px-3 py-1 rounded-md text-xs font-medium transition-colors inline-flex items-center gap-1 ${
                 activeSide === 'up'
                   ? 'bg-zinc-600 text-white'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              ▲ Round Up
+              <CaretUpIcon className="h-3 w-3 flex-shrink-0" />
+              Round Up
             </button>
           </div>
         )}
@@ -100,7 +103,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
               copied ? 'text-emerald-400' : 'text-zinc-400 hover:text-zinc-100'
             }`}
           >
-            {copied ? '✓' : '⎘'}
+            {copied ? <CheckIcon /> : <CopyIcon />}
           </button>
         </div>
       )}

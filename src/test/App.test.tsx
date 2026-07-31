@@ -260,15 +260,14 @@ describe('App — inventory persistence', () => {
 
   it('restores a toggled inventory from localStorage on remount', () => {
     const { unmount } = render(<App />);
-    let inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
     fireEvent.click(inventoryButtons[0]);
     fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
     unmount();
 
     window.history.pushState({}, '', '/');
     render(<App />);
-    inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
-    fireEvent.click(inventoryButtons[0]);
+    // The panel reopens from persisted disclosure state, so no click is needed
     expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toHaveAttribute('aria-pressed', 'false');
     expect(screen.getByRole('button', { name: 'Toggle 20 kg plate' })).toHaveAttribute('aria-pressed', 'true');
   });
@@ -281,6 +280,30 @@ describe('App — inventory persistence', () => {
     fireEvent.click(inventoryButtons[0]);
     expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toHaveAttribute('aria-pressed', 'true');
     expect(screen.getByRole('button', { name: 'Toggle 10 kg plate' })).toHaveAttribute('aria-pressed', 'false');
+  });
+});
+
+describe('App — disclosure persistence', () => {
+  it('starts with both inventory panels collapsed', () => {
+    render(<App />);
+    expect(screen.queryByRole('button', { name: 'Toggle 25 kg plate' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Toggle 45 lb plate' })).not.toBeInTheDocument();
+  });
+
+  it('reopens only the panel that was left open', () => {
+    const { unmount } = render(<App />);
+    fireEvent.click(screen.getAllByRole('button', { name: /Inventory/ })[0]);
+    unmount();
+
+    render(<App />);
+    expect(screen.getByRole('button', { name: 'Toggle 25 kg plate' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Toggle 45 lb plate' })).not.toBeInTheDocument();
+  });
+
+  it('ignores corrupt disclosure state', () => {
+    window.localStorage.setItem('plate-converter:toggles-open', 'not json');
+    render(<App />);
+    expect(screen.queryByRole('button', { name: 'Toggle 25 kg plate' })).not.toBeInTheDocument();
   });
 });
 

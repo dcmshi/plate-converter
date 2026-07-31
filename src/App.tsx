@@ -17,6 +17,7 @@ const COMPACT_HEADER_SCROLL_PX = 120;
 
 const KG_INVENTORY_KEY = 'plate-converter:inventory:kg';
 const LB_INVENTORY_KEY = 'plate-converter:inventory:lb';
+const TOGGLES_OPEN_KEY = 'plate-converter:toggles-open';
 
 const ALL_KG_WEIGHTS = KG_PLATES.map((p) => p.weight);
 const ALL_LB_WEIGHTS = LB_PLATES.map((p) => p.weight);
@@ -55,6 +56,20 @@ function loadStoredInventory(key: string, known: number[]): Set<number> | null {
   }
 }
 
+/** Read which inventory disclosures were left open; both closed if absent or unusable. */
+function loadTogglesOpen(): { kg: boolean; lb: boolean } {
+  try {
+    const raw = window.localStorage.getItem(TOGGLES_OPEN_KEY);
+    if (raw === null) return { kg: false, lb: false };
+    const parsed: unknown = JSON.parse(raw);
+    if (typeof parsed !== 'object' || parsed === null) return { kg: false, lb: false };
+    const { kg, lb } = parsed as Record<string, unknown>;
+    return { kg: kg === true, lb: lb === true };
+  } catch {
+    return { kg: false, lb: false };
+  }
+}
+
 interface UrlParams {
   kg: number;
   bar: BarType;
@@ -90,8 +105,9 @@ export default function App() {
     () => urlLbPlates ?? loadStoredInventory(LB_INVENTORY_KEY, ALL_LB_WEIGHTS) ?? new Set(ALL_LB_WEIGHTS),
   );
 
-  const [kgTogglesOpen, setKgTogglesOpen] = useState(false);
-  const [lbTogglesOpen, setLbTogglesOpen] = useState(false);
+  const [storedTogglesOpen] = useState(loadTogglesOpen);
+  const [kgTogglesOpen, setKgTogglesOpen] = useState(storedTogglesOpen.kg);
+  const [lbTogglesOpen, setLbTogglesOpen] = useState(storedTogglesOpen.lb);
 
   // On phones the inputs scroll out of view above the result cards, so a compact
   // bar keeps the loaded totals on screen once the header is gone.
@@ -156,6 +172,17 @@ export default function App() {
       // localStorage unavailable (private mode, quota) — persistence is best-effort
     }
   }, [kgEnabled, lbEnabled]);
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        TOGGLES_OPEN_KEY,
+        JSON.stringify({ kg: kgTogglesOpen, lb: lbTogglesOpen }),
+      );
+    } catch {
+      // best-effort, as above
+    }
+  }, [kgTogglesOpen, lbTogglesOpen]);
 
   function resetBoundSides() {
     setKgBoundSide('up');

@@ -48,6 +48,7 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
         <input
           id={inputId}
           type="number"
+          inputMode="decimal"
           value={value}
           min={0}
           max={max}

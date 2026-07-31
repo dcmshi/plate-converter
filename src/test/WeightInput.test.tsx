@@ -30,6 +30,13 @@ describe('WeightInput', () => {
     expect(screen.getByText('kg')).toBeInTheDocument();
   });
 
+  it('requests a decimal keypad on mobile while staying a number input', () => {
+    render(<WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />);
+    const input = screen.getByRole('spinbutton');
+    expect(input).toHaveAttribute('inputmode', 'decimal');
+    expect(input).toHaveAttribute('type', 'number');
+  });
+
   it('renders the current value', () => {
     render(<WeightInput value="220.46" unit="lb" onChange={() => {}} label="Pounds" />);
     const input = screen.getByRole('spinbutton') as HTMLInputElement;

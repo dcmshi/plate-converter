@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { type PlateUnit } from '../utils/constants';
 
 interface WeightInputProps {
@@ -8,6 +9,7 @@ interface WeightInputProps {
 }
 
 export default function WeightInput({ value, unit, onChange, label }: WeightInputProps) {
+  const inputId = useId();
   const numVal = parseFloat(value);
   const isInvalid = value !== '' && (isNaN(numVal) || numVal < 0);
 
@@ -38,9 +40,12 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
 
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs text-zinc-500 uppercase tracking-widest">{label}</label>
+      <label htmlFor={inputId} className="text-xs text-zinc-500 uppercase tracking-widest">
+        {label}
+      </label>
       <div className="flex items-center gap-2">
         <input
+          id={inputId}
           type="number"
           value={value}
           min={0}

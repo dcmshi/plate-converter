@@ -8,6 +8,23 @@ describe('WeightInput', () => {
     expect(screen.getByText('Kilograms')).toBeInTheDocument();
   });
 
+  it('associates the label with the input', () => {
+    render(<WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />);
+    expect(screen.getByLabelText('Kilograms')).toBe(screen.getByRole('spinbutton'));
+  });
+
+  it('gives each instance a distinct input id', () => {
+    render(
+      <>
+        <WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />
+        <WeightInput value="220.46" unit="lb" onChange={() => {}} label="Pounds" />
+      </>,
+    );
+    const [kgInput, lbInput] = screen.getAllByRole('spinbutton');
+    expect(kgInput.id).not.toBe(lbInput.id);
+    expect(screen.getByLabelText('Pounds')).toBe(lbInput);
+  });
+
   it('renders the unit', () => {
     render(<WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />);
     expect(screen.getByText('kg')).toBeInTheDocument();

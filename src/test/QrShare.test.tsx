@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import QRCode from 'qrcode';
 import QrShare from '../components/QrShare';
 
@@ -54,16 +54,45 @@ describe('QrShare', () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
+  it('coalesces rapid query changes into a single QR generation', async () => {
+    vi.useFakeTimers();
+    try {
+      const { rerender } = render(<QrShare query="kg=100" />);
+      fireEvent.click(screen.getByText('Share QR'));
+
+      act(() => { vi.advanceTimersByTime(300); });
+      await act(async () => {});
+      expect(toDataURL).toHaveBeenCalledTimes(1);
+
+      rerender(<QrShare query="kg=101" />);
+      rerender(<QrShare query="kg=102" />);
+      rerender(<QrShare query="kg=103" />);
+      act(() => { vi.advanceTimersByTime(299); });
+      expect(toDataURL).toHaveBeenCalledTimes(1);
+
+      act(() => { vi.advanceTimersByTime(1); });
+      await act(async () => {});
+      expect(toDataURL).toHaveBeenCalledTimes(2);
+      expect(toDataURL).toHaveBeenLastCalledWith(
+        expect.stringContaining('?kg=103'),
+        expect.any(Object),
+      );
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('regenerates the QR when the query changes while open', async () => {
     const { rerender } = render(<QrShare query="kg=100" />);
     fireEvent.click(screen.getByText('Share QR'));
     await screen.findByRole('img');
 
     rerender(<QrShare query="kg=120" />);
-    await screen.findByRole('img');
-    expect(toDataURL).toHaveBeenLastCalledWith(
-      expect.stringContaining('?kg=120'),
-      expect.any(Object),
+    await waitFor(() =>
+      expect(toDataURL).toHaveBeenLastCalledWith(
+        expect.stringContaining('?kg=120'),
+        expect.any(Object),
+      ),
     );
   });
 });

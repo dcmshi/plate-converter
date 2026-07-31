@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { ChevronIcon } from './icons';
 
+const QR_DEBOUNCE_MS = 300;
+
 interface QrShareProps {
   /** Current query string (no leading "?"); the QR encodes the full deep-link URL. */
   query: string;
@@ -13,14 +15,17 @@ export default function QrShare({ query }: QrShareProps) {
 
   const shareUrl = `${window.location.origin}${window.location.pathname}${query ? `?${query}` : ''}`;
 
-  // Regenerate while open so the QR tracks weight/bar/inventory changes
+  // Regenerate while open so the QR tracks weight/bar/inventory changes, debounced
+  // so typing in the weight field doesn't encode a QR per keystroke
   useEffect(() => {
     if (!open) return;
     let stale = false;
-    QRCode.toDataURL(shareUrl, { margin: 2, width: 192 })
-      .then((url) => { if (!stale) setDataUrl(url); })
-      .catch(() => { if (!stale) setDataUrl(null); });
-    return () => { stale = true; };
+    const timer = window.setTimeout(() => {
+      QRCode.toDataURL(shareUrl, { margin: 2, width: 192 })
+        .then((url) => { if (!stale) setDataUrl(url); })
+        .catch(() => { if (!stale) setDataUrl(null); });
+    }, QR_DEBOUNCE_MS);
+    return () => { stale = true; window.clearTimeout(timer); };
   }, [open, shareUrl]);
 
   return (

@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+  /* The dark surface lives on a React-rendered div, so without this the browser
+     paints white until the bundle mounts. */
+  html,
+  body {
+    background-color: #09090b;
+  }
+
   :root {
     /* Plate/bar artwork is sized in px; this factor shrinks the whole assembly
        on phones so a 160px bumper doesn't dominate the viewport. */

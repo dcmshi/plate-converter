@@ -47,29 +47,11 @@ export default function Plate({ weight, variant }: PlateProps) {
 
   return (
     <div
-      style={{
-        width: `${width}px`,
-        height: `${height}px`,
-        backgroundColor: def.color,
-        border: '2px solid #71717a',
-        borderRadius: '3px',
-        flexShrink: 0,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        writingMode: 'vertical-rl',
-        overflow: 'hidden',
-      }}
+      className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-[3px] border-2 border-plate-rim bg-plate-iron [writing-mode:vertical-rl]"
+      style={{ width: `${width}px`, height: `${height}px` }}
     >
       <span
-        style={{
-          fontSize: '7px',
-          color: '#d4d4d8',
-          fontFamily: 'monospace',
-          fontWeight: 700,
-          letterSpacing: '0.05em',
-          transform: 'rotate(180deg)',
-        }}
+        className="rotate-180 font-mono text-[7px] font-bold tracking-wider text-plate-label"
       >
         {label}
       </span>

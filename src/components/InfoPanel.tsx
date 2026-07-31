@@ -100,7 +100,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
             aria-label="Copy plate configuration"
             title={copied ? 'Copied!' : 'Copy to clipboard'}
             className={`focus-ring min-h-11 min-w-11 inline-flex items-center justify-center rounded transition-colors text-xs flex-shrink-0 ${
-              copied ? 'text-emerald-400' : 'text-zinc-400 hover:text-zinc-100'
+              copied ? 'text-accent-success' : 'text-zinc-400 hover:text-zinc-100'
             }`}
           >
             {copied ? <CheckIcon /> : <CopyIcon />}

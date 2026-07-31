@@ -9,23 +9,8 @@ interface SleeveProps {
 function BarStub() {
   return (
     <div className="flex items-center flex-shrink-0">
-      <div
-        style={{
-          width: '10px',
-          height: '28px',
-          backgroundColor: '#71717a',
-          borderRadius: '2px 0 0 2px',
-          flexShrink: 0,
-        }}
-      />
-      <div
-        style={{
-          width: '120px',
-          height: '14px',
-          backgroundColor: '#52525b',
-          flexShrink: 0,
-        }}
-      />
+      <div className="h-7 w-[10px] flex-shrink-0 rounded-l-sm bg-bar-collar" />
+      <div className="h-[14px] w-[120px] flex-shrink-0 bg-bar-shaft" />
     </div>
   );
 }
@@ -52,18 +37,13 @@ export default function Sleeve({ plates, variant }: SleeveProps) {
             )}
           </div>
           <div
-            style={{
-              width: '6px',
-              height: '10px',
-              backgroundColor: '#3f3f46',
-              borderRadius: '0 2px 2px 0',
-              flexShrink: 0,
-              marginLeft: hasPlates ? '2px' : '0',
-            }}
+            className={`h-[10px] w-[6px] flex-shrink-0 rounded-r-sm bg-bar-endcap ${
+              hasPlates ? 'ml-[2px]' : ''
+            }`}
           />
         </div>
         {/* Shelf + contact shadow: without a floor the bar and plates read as floating */}
-        <div aria-hidden="true" className="h-px bg-gradient-to-r from-zinc-600 via-zinc-600 to-transparent" />
+        <div aria-hidden="true" className="h-px bg-gradient-to-r from-bar-shelf via-bar-shelf to-transparent" />
         <div aria-hidden="true" className="h-2 bg-gradient-to-b from-black/50 to-transparent" />
       </div>
     </div>

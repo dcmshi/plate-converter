@@ -13,8 +13,8 @@ interface BoundsTrackProps {
 export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: BoundsTrackProps) {
   if (bounds.isExact) {
     return (
-      <div className="flex items-center gap-2 text-xs text-emerald-400">
-        <CheckIcon className="h-3.5 w-3.5 flex-shrink-0 text-emerald-500" />
+      <div className="flex items-center gap-2 text-xs text-accent-success">
+        <CheckIcon className="h-3.5 w-3.5 flex-shrink-0" />
         <span>Exact match — {formatWeight(bounds.exact, unit)}</span>
       </div>
     );
@@ -45,7 +45,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
       <div className="relative flex-1 h-1 bg-zinc-700 rounded-full min-w-[60px]">
         <div
           aria-hidden="true"
-          className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-amber-400 -translate-x-1/2"
+          className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-accent-exact -translate-x-1/2"
           style={{ left: `${dotPos * 100}%` }}
         />
       </div>

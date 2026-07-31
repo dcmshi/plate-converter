@@ -37,6 +37,18 @@ describe('Sleeve', () => {
     expect(shadow.className).toContain('bg-gradient-to-b');
   });
 
+  it('paints the bar hardware from design tokens, not inline hex', () => {
+    const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
+    expect(container.querySelector('.bg-bar-collar')).not.toBeNull();
+    expect(container.querySelector('.bg-bar-shaft')).not.toBeNull();
+    expect(container.querySelector('.bg-bar-endcap')).not.toBeNull();
+    for (const el of container.querySelectorAll('[style]')) {
+      // Only the plates carry inline colour (the Eleiko colour standard)
+      if (!el.className.includes('bg-')) continue;
+      expect(el.getAttribute('style')).not.toMatch(/background-color/);
+    }
+  });
+
   it('butts the bar shaft against the first plate', () => {
     const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
     const [row] = [...container.firstElementChild!.firstElementChild!.children];

@@ -26,6 +26,22 @@ describe('BoundsTrack — exact match', () => {
   });
 });
 
+describe('BoundsTrack — tokens', () => {
+  it('marks the exact-weight dot with the accent token', () => {
+    const { container } = render(
+      <BoundsTrack bounds={nonExactBounds} unit="kg" activeSide="down" onSelect={() => {}} />,
+    );
+    expect(container.querySelector('.bg-accent-exact')).not.toBeNull();
+  });
+
+  it('uses the success token for the exact-match row', () => {
+    const { container } = render(
+      <BoundsTrack bounds={exactBounds} unit="kg" activeSide="down" onSelect={() => {}} />,
+    );
+    expect(container.querySelector('.text-accent-success')).not.toBeNull();
+  });
+});
+
 describe('BoundsTrack — range === 0 (down === up)', () => {
   it('renders both weight buttons without error when down and up are identical', () => {
     const zeroRangeBounds: BoundsResult = {

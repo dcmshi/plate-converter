@@ -13,7 +13,6 @@ export interface KgPlate {
 export interface LbPlate {
   weight: number;
   size: IronSize;
-  color: string;
 }
 
 export const KG_PLATES: KgPlate[] = [
@@ -29,14 +28,14 @@ export const KG_PLATES: KgPlate[] = [
   { weight: 0.5, color: '#FFFFFF', colorName: 'White',  visualType: 'fractional', borderColor: '#bbb' },
 ];
 
-// Iron fill sits at zinc-600 so plates read as iron against the zinc-900 card;
-// #18181b/#27272a were near-invisible on it. Size is conveyed by dimensions.
+// Iron plates all share the plate-iron token as their fill; size carries the
+// visual difference. Sizes map to LB_PLATE_HEIGHT below.
 export const LB_PLATES: LbPlate[] = [
-  { weight: 45,  size: 'large',   color: '#52525b' },
-  { weight: 25,  size: 'medium',  color: '#52525b' },
-  { weight: 10,  size: 'small',   color: '#52525b' },
-  { weight: 5,   size: 'smaller', color: '#52525b' },
-  { weight: 2.5, size: 'smallest', color: '#52525b' },
+  { weight: 45,  size: 'large' },
+  { weight: 25,  size: 'medium' },
+  { weight: 10,  size: 'small' },
+  { weight: 5,   size: 'smaller' },
+  { weight: 2.5, size: 'smallest' },
 ];
 
 // Bar weights

@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Plate from '../components/Plate';
-import { LB_PLATES } from '../utils/constants';
+import { LB_PLATES, LB_PLATE_HEIGHT } from '../utils/constants';
 
 describe('Plate — eleiko variant', () => {
   it('renders without crashing for a valid kg plate', () => {
@@ -26,17 +26,23 @@ describe('Plate — iron variant', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('fills iron plates lighter than the card surface, with a lighter rim', () => {
+  it('paints iron plates from the plate tokens', () => {
     const { container } = render(<Plate weight={45} variant="iron" />);
-    expect(container.firstElementChild).toHaveStyle({
-      backgroundColor: 'rgb(82, 82, 91)',
-      borderColor: 'rgb(113, 113, 122)',
-    });
+    expect(container.firstElementChild).toHaveClass('bg-plate-iron', 'border-plate-rim');
+    expect(screen.getByText('45')).toHaveClass('text-plate-label');
   });
 
-  it('uses the same iron fill for every lb plate', () => {
-    const fills = LB_PLATES.map((p) => p.color);
-    expect(new Set(fills).size).toBe(1);
+  it('carries no inline colour for iron plates', () => {
+    const { container } = render(<Plate weight={25} variant="iron" />);
+    expect(container.firstElementChild!.getAttribute('style')).not.toMatch(/color/);
+  });
+
+  it('sizes each iron plate from its size band', () => {
+    for (const { weight, size } of LB_PLATES) {
+      const { container, unmount } = render(<Plate weight={weight} variant="iron" />);
+      expect(container.firstElementChild).toHaveStyle({ height: `${LB_PLATE_HEIGHT[size]}px` });
+      unmount();
+    }
   });
 
   it('shows weight label text', () => {

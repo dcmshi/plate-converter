@@ -29,6 +29,20 @@ describe('Sleeve', () => {
     expect(screen.getByText('No plates')).toBeInTheDocument();
   });
 
+  it('grounds the bar with a shelf line and contact shadow', () => {
+    const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
+    const [row, shelf, shadow] = [...container.firstElementChild!.firstElementChild!.children];
+    expect(row.className).toContain('items-center');
+    expect(shelf.className).toContain('bg-gradient-to-r');
+    expect(shadow.className).toContain('bg-gradient-to-b');
+  });
+
+  it('butts the bar shaft against the first plate', () => {
+    const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
+    const [row] = [...container.firstElementChild!.firstElementChild!.children];
+    expect(row.className).not.toMatch(/\bgap-/);
+  });
+
   it('renders "No plates" at readable contrast', () => {
     render(<Sleeve plates={[]} variant="eleiko" />);
     expect(screen.getByText('No plates')).toHaveClass('text-zinc-400');

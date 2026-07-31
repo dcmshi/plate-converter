@@ -86,6 +86,43 @@ describe('WeightInput', () => {
   });
 });
 
+describe('WeightInput — invalid value hint', () => {
+  it('announces the allowed kg range when the value is invalid', () => {
+    render(<WeightInput value="-5" unit="kg" onChange={() => {}} label="Kilograms" />);
+    expect(screen.getByText('Enter a number between 0 and 500')).toBeInTheDocument();
+  });
+
+  it('announces the lb range for the lb field', () => {
+    render(<WeightInput value="-5" unit="lb" onChange={() => {}} label="Pounds" />);
+    expect(screen.getByText('Enter a number between 0 and 1102.5')).toBeInTheDocument();
+  });
+
+  it('marks the input aria-invalid only while the value is invalid', () => {
+    const { rerender } = render(
+      <WeightInput value="-5" unit="kg" onChange={() => {}} label="Kilograms" />,
+    );
+    expect(screen.getByRole('spinbutton')).toHaveAttribute('aria-invalid', 'true');
+
+    rerender(<WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />);
+    expect(screen.getByRole('spinbutton')).toHaveAttribute('aria-invalid', 'false');
+    expect(screen.queryByText(/Enter a number between/)).not.toBeInTheDocument();
+  });
+
+  it('describes the input with a polite live region', () => {
+    render(<WeightInput value="100" unit="kg" onChange={() => {}} label="Kilograms" />);
+    const hintId = screen.getByRole('spinbutton').getAttribute('aria-describedby');
+    const hint = document.getElementById(hintId!);
+    expect(hint).not.toBeNull();
+    expect(hint).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('shows no hint for an empty value', () => {
+    render(<WeightInput value="" unit="kg" onChange={() => {}} label="Kilograms" />);
+    expect(screen.getByRole('spinbutton')).toHaveAttribute('aria-invalid', 'false');
+    expect(screen.queryByText(/Enter a number between/)).not.toBeInTheDocument();
+  });
+});
+
 describe('WeightInput — keyboard increment', () => {
   it('ArrowUp increments kg by 0.5', () => {
     const onChange = vi.fn();

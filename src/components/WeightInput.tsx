@@ -10,6 +10,7 @@ interface WeightInputProps {
 
 export default function WeightInput({ value, unit, onChange, label }: WeightInputProps) {
   const inputId = useId();
+  const hintId = `${inputId}-hint`;
   const numVal = parseFloat(value);
   const isInvalid = value !== '' && (isNaN(numVal) || numVal < 0);
 
@@ -53,6 +54,8 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
           step={unit === 'kg' ? 0.5 : 2.5}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
+          aria-invalid={isInvalid}
+          aria-describedby={hintId}
           className={`focus-ring w-32 px-3 py-2 bg-zinc-800 rounded-lg text-white text-lg font-mono tabular-nums focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none border ${
             isInvalid
               ? 'border-red-500 focus:border-red-400'
@@ -61,6 +64,10 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
         />
         <span className="text-zinc-400 text-sm">{unit}</span>
       </div>
+      {/* Rendered even when valid so assistive tech has a live region to announce into */}
+      <p id={hintId} aria-live="polite" className="min-h-4 text-xs text-red-400">
+        {isInvalid ? `Enter a number between 0 and ${max}` : ''}
+      </p>
     </div>
   );
 }

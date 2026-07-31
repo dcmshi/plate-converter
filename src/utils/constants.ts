@@ -29,12 +29,14 @@ export const KG_PLATES: KgPlate[] = [
   { weight: 0.5, color: '#FFFFFF', colorName: 'White',  visualType: 'fractional', borderColor: '#bbb' },
 ];
 
+// Iron fill sits at zinc-600 so plates read as iron against the zinc-900 card;
+// #18181b/#27272a were near-invisible on it. Size is conveyed by dimensions.
 export const LB_PLATES: LbPlate[] = [
-  { weight: 45,  size: 'large',   color: '#18181b' },
-  { weight: 25,  size: 'medium',  color: '#18181b' },
-  { weight: 10,  size: 'small',   color: '#27272a' },
-  { weight: 5,   size: 'smaller', color: '#27272a' },
-  { weight: 2.5, size: 'smallest', color: '#27272a' },
+  { weight: 45,  size: 'large',   color: '#52525b' },
+  { weight: 25,  size: 'medium',  color: '#52525b' },
+  { weight: 10,  size: 'small',   color: '#52525b' },
+  { weight: 5,   size: 'smaller', color: '#52525b' },
+  { weight: 2.5, size: 'smallest', color: '#52525b' },
 ];
 
 // Bar weights

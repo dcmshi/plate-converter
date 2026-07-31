@@ -51,7 +51,7 @@ export default function Plate({ weight, variant }: PlateProps) {
         width: `${width}px`,
         height: `${height}px`,
         backgroundColor: def.color,
-        border: '2px solid #3f3f46',
+        border: '2px solid #71717a',
         borderRadius: '3px',
         flexShrink: 0,
         display: 'flex',

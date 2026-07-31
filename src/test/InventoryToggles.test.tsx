@@ -134,4 +134,19 @@ describe('InventoryToggles', () => {
     const disabledBtn = screen.getByText('15 kg');
     expect(disabledBtn).toHaveClass('line-through');
   });
+
+  it('keeps disabled plate labels at readable contrast', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={new Set([25, 20])}
+        unit="kg"
+        open={true}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
+      />,
+    );
+    expect(screen.getByText('15 kg')).toHaveClass('text-zinc-400');
+  });
 });

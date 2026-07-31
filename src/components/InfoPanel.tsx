@@ -35,14 +35,14 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
     <div className="flex flex-col gap-2 mb-3">
       {/* Header row */}
       <div className="flex items-baseline gap-2">
-        <span className="text-xs text-zinc-500 uppercase tracking-widest">{label}</span>
+        <span className="text-xs text-zinc-400 uppercase tracking-widest">{label}</span>
         <span className="text-2xl font-bold text-white tabular-nums">
           {fmtAchievable}
         </span>
         <span className="text-sm text-zinc-400">{unit}</span>
 
         {!bounds.isExact && (
-          <span className="ml-auto text-xs text-zinc-500">
+          <span className="ml-auto text-xs text-zinc-400">
             exact: {formatWeight(bounds.exact, unit)}
           </span>
         )}
@@ -89,7 +89,7 @@ export default function InfoPanel({ bounds, unit, activeSide, onSelectSide, labe
       {/* Plate breakdown: per-side summary with copy button */}
       {active.plates.length > 0 && (
         <div className="flex items-center gap-2">
-          <span className="text-xs text-zinc-500 font-mono">
+          <span className="text-xs text-zinc-400 font-mono">
             {active.plates.map((p) => `${p.count}×${p.weight}`).join(' + ')} per side
           </span>
           <button

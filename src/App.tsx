@@ -207,7 +207,7 @@ export default function App() {
 
         <div className="text-center">
           <h1 className="text-2xl font-bold tracking-tight text-white">PlateConverter</h1>
-          <p className="text-xs text-zinc-500 mt-1">Eleiko KGS · Commercial LBS</p>
+          <p className="text-xs text-zinc-400 mt-1">Eleiko KGS · Commercial LBS</p>
         </div>
 
         <div className="flex justify-center">
@@ -265,7 +265,7 @@ export default function App() {
 
         <QrShare query={shareQuery} />
 
-        <p className="text-center text-xs text-zinc-700">1 kg = 2.20462 lb</p>
+        <p className="text-center text-xs text-zinc-400">1 kg = 2.20462 lb</p>
       </div>
     </div>
   );

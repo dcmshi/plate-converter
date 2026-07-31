@@ -35,7 +35,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
         className={`text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'down'
             ? 'text-white font-semibold'
-            : 'text-zinc-500 hover:text-zinc-300'
+            : 'text-zinc-400 hover:text-zinc-200'
         }`}
       >
         {formatWeight(downW, unit)}
@@ -55,7 +55,7 @@ export default function BoundsTrack({ bounds, unit, activeSide, onSelect }: Boun
         className={`text-xs font-mono tabular-nums transition-colors ${
           activeSide === 'up'
             ? 'text-white font-semibold'
-            : 'text-zinc-500 hover:text-zinc-300'
+            : 'text-zinc-400 hover:text-zinc-200'
         }`}
       >
         {formatWeight(upW, unit)}

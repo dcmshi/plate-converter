@@ -46,7 +46,7 @@ export default function Sleeve({ plates, variant }: SleeveProps) {
               )),
             )
         ) : (
-          <span className="text-zinc-600 text-xs ml-3">No plates</span>
+          <span className="text-zinc-400 text-xs ml-3">No plates</span>
         )}
       </div>
       <div

@@ -25,7 +25,7 @@ export default function InventoryToggles({
       <button
         onClick={onToggleOpen}
         aria-expanded={open}
-        className="min-h-11 pr-2 text-xs text-zinc-500 hover:text-zinc-300 transition-colors flex items-center gap-1"
+        className="min-h-11 pr-2 text-xs text-zinc-400 hover:text-zinc-200 transition-colors flex items-center gap-1"
       >
         <span>{open ? '▾' : '▸'}</span>
         <span>Inventory</span>
@@ -51,7 +51,7 @@ export default function InventoryToggles({
                   className={`min-h-11 min-w-11 px-3 rounded text-xs font-mono transition-colors border ${
                     on
                       ? 'bg-zinc-700 border-zinc-600 text-white'
-                      : 'bg-zinc-900 border-zinc-700 text-zinc-600 line-through'
+                      : 'bg-zinc-900 border-zinc-700 text-zinc-400 line-through'
                   }`}
                 >
                   {label} {unit}

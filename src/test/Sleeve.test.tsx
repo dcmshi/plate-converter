@@ -29,6 +29,11 @@ describe('Sleeve', () => {
     expect(screen.getByText('No plates')).toBeInTheDocument();
   });
 
+  it('renders "No plates" at readable contrast', () => {
+    render(<Sleeve plates={[]} variant="eleiko" />);
+    expect(screen.getByText('No plates')).toHaveClass('text-zinc-400');
+  });
+
   it('renders each plate instance individually (count=2 → two elements)', () => {
     const { container } = render(
       <Sleeve plates={[{ weight: 25, count: 2 }]} variant="eleiko" />,

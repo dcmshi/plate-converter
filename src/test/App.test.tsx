@@ -61,6 +61,11 @@ describe('App — initial state', () => {
     expect(lbInput.value).toBe('220.46');
   });
 
+  it('renders the conversion footnote at readable contrast', () => {
+    render(<App />);
+    expect(screen.getByText('1 kg = 2.20462 lb')).toHaveClass('text-zinc-400');
+  });
+
   it('shows the KGS plate breakdown for the default weight', () => {
     render(<App />);
     // 100 kg with Men's 20 kg bar: 40 kg/side → 1×25 + 1×15

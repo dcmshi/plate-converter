@@ -62,7 +62,7 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
 
   return (
     <div className="flex flex-col gap-2 pt-2 border-t border-zinc-800">
-      <span className="text-xs text-zinc-600 uppercase tracking-widest">Presets</span>
+      <span className="text-xs text-zinc-400 uppercase tracking-widest">Presets</span>
 
       {Object.keys(presets).length > 0 && (
         <div className="flex flex-wrap gap-2">
@@ -82,7 +82,7 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
               <button
                 onClick={() => remove(presetName)}
                 aria-label={`Delete preset ${presetName}`}
-                className="min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-500 hover:text-red-400 transition-colors border-l border-zinc-700"
+                className="min-h-11 min-w-11 flex items-center justify-center text-xs text-zinc-400 hover:text-red-400 transition-colors border-l border-zinc-700"
               >
                 ×
               </button>
@@ -98,7 +98,7 @@ export default function InventoryPresets({ unit, enabled, onApply }: InventoryPr
           onKeyDown={(e) => { if (e.key === 'Enter') save(); }}
           placeholder="Save current as…"
           aria-label={`Preset name (${unit})`}
-          className="w-36 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded text-xs text-white placeholder-zinc-600 focus:outline-none focus:border-zinc-500"
+          className="w-36 px-2 py-1 bg-zinc-800 border border-zinc-700 rounded text-xs text-white placeholder-zinc-400 focus:outline-none focus:border-zinc-500"
         />
         <button
           onClick={save}

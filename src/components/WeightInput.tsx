@@ -40,7 +40,7 @@ export default function WeightInput({ value, unit, onChange, label }: WeightInpu
 
   return (
     <div className="flex flex-col gap-1">
-      <label htmlFor={inputId} className="text-xs text-zinc-500 uppercase tracking-widest">
+      <label htmlFor={inputId} className="text-xs text-zinc-400 uppercase tracking-widest">
         {label}
       </label>
       <div className="flex items-center gap-2">

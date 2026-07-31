@@ -50,8 +50,8 @@ export default function InventoryToggles({
                   aria-pressed={on}
                   className={`min-h-11 min-w-11 px-3 rounded text-xs font-mono transition-colors border ${
                     on
-                      ? 'bg-zinc-700 border-zinc-600 text-white'
-                      : 'bg-zinc-900 border-zinc-700 text-zinc-400 line-through'
+                      ? 'bg-zinc-700 border-solid border-zinc-600 text-white'
+                      : 'bg-zinc-900 border-dashed border-zinc-500 text-zinc-400 line-through'
                   }`}
                 >
                   {label} {unit}

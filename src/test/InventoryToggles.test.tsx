@@ -135,6 +135,25 @@ describe('InventoryToggles', () => {
     expect(disabledBtn).toHaveClass('line-through');
   });
 
+  it('marks disabled plates with a dashed border, not colour alone', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={new Set([25, 20])}
+        unit="kg"
+        open={true}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
+      />,
+    );
+    const disabled = screen.getByRole('button', { name: 'Toggle 15 kg plate' });
+    const enabled = screen.getByRole('button', { name: 'Toggle 25 kg plate' });
+    expect(disabled).toHaveClass('border-dashed');
+    expect(enabled).toHaveClass('border-solid');
+    expect(enabled).not.toHaveClass('border-dashed');
+  });
+
   it('keeps disabled plate labels at readable contrast', () => {
     render(
       <InventoryToggles

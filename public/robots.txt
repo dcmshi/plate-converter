@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://plate-converter.onrender.com/sitemap.xml

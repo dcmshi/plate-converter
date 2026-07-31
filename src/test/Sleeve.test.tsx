@@ -49,6 +49,14 @@ describe('Sleeve', () => {
     }
   });
 
+  it('scales the bar hardware with the plates', () => {
+    const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
+    const collar = container.querySelector('.bg-bar-collar') as HTMLElement;
+    const shaft = container.querySelector('.bg-bar-shaft') as HTMLElement;
+    expect(collar.style.height).toBe('calc(28px * var(--plate-scale))');
+    expect(shaft.style.height).toBe('calc(14px * var(--plate-scale))');
+  });
+
   it('butts the bar shaft against the first plate', () => {
     const { container } = render(<Sleeve plates={kgPlates} variant="eleiko" />);
     const [row] = [...container.firstElementChild!.firstElementChild!.children];

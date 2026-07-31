@@ -77,6 +77,14 @@ export const LB_PLATE_HEIGHT: Record<IronSize, number> = {
   smallest: 70,
 };
 
+/**
+ * Plate artwork is specified in px; --plate-scale (index.css) shrinks the whole
+ * assembly below the sm breakpoint so it stays proportionate on phones.
+ */
+export function scaled(px: number): string {
+  return `calc(${px}px * var(--plate-scale))`;
+}
+
 // Width per weight for lb plates (px)
 export const LB_PLATE_WIDTH: Record<number, number> = {
   45:  22,

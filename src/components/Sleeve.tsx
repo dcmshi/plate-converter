@@ -1,4 +1,5 @@
 import Plate, { type PlateVariant } from './Plate';
+import { scaled } from '../utils/constants';
 import { type PlateCount } from '../utils/loading';
 
 interface SleeveProps {
@@ -9,8 +10,14 @@ interface SleeveProps {
 function BarStub() {
   return (
     <div className="flex items-center flex-shrink-0">
-      <div className="h-7 w-[10px] flex-shrink-0 rounded-l-sm bg-bar-collar" />
-      <div className="h-[14px] w-[120px] flex-shrink-0 bg-bar-shaft" />
+      <div
+        className="w-[10px] flex-shrink-0 rounded-l-sm bg-bar-collar"
+        style={{ height: scaled(28) }}
+      />
+      <div
+        className="w-[120px] flex-shrink-0 bg-bar-shaft"
+        style={{ height: scaled(14) }}
+      />
     </div>
   );
 }

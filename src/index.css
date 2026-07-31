@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  :root {
+    /* Plate/bar artwork is sized in px; this factor shrinks the whole assembly
+       on phones so a 160px bumper doesn't dominate the viewport. */
+    --plate-scale: 0.62;
+  }
+
+  @media (min-width: 640px) {
+    :root {
+      --plate-scale: 1;
+    }
+  }
+}
+
 @layer utilities {
   /* Keyboard focus affordance — interactive elements otherwise only react to hover */
   .focus-ring {

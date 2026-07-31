@@ -5,6 +5,7 @@ import {
   LB_PLATE_HEIGHT,
   KG_PLATE_WIDTH,
   LB_PLATE_WIDTH,
+  scaled,
 } from '../utils/constants';
 
 export type PlateVariant = 'eleiko' | 'iron';
@@ -26,8 +27,8 @@ export default function Plate({ weight, variant }: PlateProps) {
     return (
       <div
         style={{
-          width: `${width}px`,
-          height: `${height}px`,
+          width: scaled(width),
+          height: scaled(height),
           backgroundColor: def.color,
           border,
           borderRadius: '3px',
@@ -48,7 +49,7 @@ export default function Plate({ weight, variant }: PlateProps) {
   return (
     <div
       className="flex flex-shrink-0 items-center justify-center overflow-hidden rounded-[3px] border-2 border-plate-rim bg-plate-iron [writing-mode:vertical-rl]"
-      style={{ width: `${width}px`, height: `${height}px` }}
+      style={{ width: scaled(width), height: scaled(height) }}
     >
       <span
         className="rotate-180 font-mono text-[7px] font-bold tracking-wider text-plate-label"

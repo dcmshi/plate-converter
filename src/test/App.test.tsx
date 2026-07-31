@@ -206,6 +206,17 @@ describe('App — inventory toggle', () => {
     expect(screen.getByRole('button', { name: 'Round Up' })).toHaveClass('bg-zinc-600');
   });
 
+  it('surfaces the enabled plate count on the collapsed disclosure', () => {
+    render(<App />);
+    const inventoryButtons = screen.getAllByRole('button', { name: /Inventory/ });
+    fireEvent.click(inventoryButtons[0]);
+    fireEvent.click(screen.getByRole('button', { name: 'Toggle 25 kg plate' }));
+
+    // Collapse again — the count stays visible without expanding
+    fireEvent.click(screen.getAllByRole('button', { name: /Inventory/ })[0]);
+    expect(screen.getByText('(9/10 plates)')).toBeInTheDocument();
+  });
+
   it('encodes the inventory in the URL when a plate is toggled', () => {
     render(<App />);
     expect(window.location.search).not.toContain('kgp');

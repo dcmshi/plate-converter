@@ -30,6 +30,11 @@ export default function InventoryToggles({
       >
         <ChevronIcon open={open} />
         <span>Inventory</span>
+        {enabled.size !== plates.length && (
+          <span className="font-mono tabular-nums">
+            ({enabled.size}/{plates.length} plates)
+          </span>
+        )}
       </button>
 
       {open && (

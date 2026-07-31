@@ -21,6 +21,36 @@ describe('InventoryToggles', () => {
     expect(screen.getByText('Inventory')).toBeInTheDocument();
   });
 
+  it('shows no plate count while the full set is enabled', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={allEnabled}
+        unit="kg"
+        open={false}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
+      />,
+    );
+    expect(screen.queryByText(/plates\)/)).not.toBeInTheDocument();
+  });
+
+  it('shows how many plates are enabled when some are off', () => {
+    render(
+      <InventoryToggles
+        plates={plates}
+        enabled={new Set([25, 20])}
+        unit="kg"
+        open={false}
+        onToggleOpen={() => {}}
+        onTogglePlate={() => {}}
+        onApplyPreset={() => {}}
+      />,
+    );
+    expect(screen.getByText('(2/6 plates)')).toBeInTheDocument();
+  });
+
   it('does not show plates when closed', () => {
     render(
       <InventoryToggles

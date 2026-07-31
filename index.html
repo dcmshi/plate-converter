@@ -15,11 +15,14 @@
     <meta property="og:url" content="https://plate-converter.onrender.com/" />
     <meta property="og:site_name" content="PlateConverter" />
     <meta property="og:image" content="https://plate-converter.onrender.com/screenshot.png" />
+    <meta property="og:image:width" content="1523" />
+    <meta property="og:image:height" content="784" />
     <meta property="og:image:alt" content="150 kg loaded on a barbell, shown as Eleiko colour-coded kg plates beside commercial lb iron plates." />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PlateConverter" />
     <meta name="twitter:description" content="Visualize barbell loading across two gym standards: Eleiko kg plates and commercial lb iron plates, side by side." />
     <meta name="twitter:image" content="https://plate-converter.onrender.com/screenshot.png" />
+    <meta name="twitter:image:alt" content="150 kg loaded on a barbell, shown as Eleiko colour-coded kg plates beside commercial lb iron plates." />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -35,6 +38,15 @@
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <h1>PlateConverter</h1>
+      <p>
+        A barbell plate loading visualizer for lifters who train in both metric (Eleiko kg) and
+        commercial imperial (lb) gyms. Enter a target weight in either unit and see the exact plate
+        configuration for both standards, side by side.
+      </p>
+      <p>PlateConverter needs JavaScript enabled to calculate and draw plate loadings.</p>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

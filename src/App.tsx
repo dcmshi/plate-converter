@@ -327,6 +327,26 @@ export default function App() {
         <QrShare query={shareQuery} />
 
         <p className="text-center text-xs text-zinc-400">1 kg = 2.20462 lb</p>
+
+        <p className="text-center text-xs text-zinc-400">
+          <a
+            href="https://github.com/sponsors/dcmshi"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white hover:underline"
+          >
+            ❤️ Support this project
+          </a>
+          <span aria-hidden="true" className="mx-2">·</span>
+          <a
+            href="https://github.com/dcmshi/plate-converter"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white hover:underline"
+          >
+            View source on GitHub
+          </a>
+        </p>
       </div>
     </div>
   );
